@@ -12,6 +12,7 @@ filetype off                  " required
 
 " Custom pymode options
 let g:pymode_options_max_line_length = 99
+let g:pymode_lint_ignore = "R0201"
 
 " Change leader because reasons
 let mapleader = ","
@@ -26,18 +27,25 @@ imap <C-s> <Esc>:w<CR>
 "python toggle IPython embed
 " and other niceties for Python
 map <leader>ip :call ToggleIPython()<CR>
+map <leader>pr :!python %<CR>
+map <leader>pv :Pytest file -s<CR>
+map <leader>pt :Pytest file<CR>
+map <leader>pdv :! $AVER_SOURCE/rouster/rind exec api py.test /aver/%<CR>
 
 " Ctrl-y to reload all windows in all tabs
 map <C-y> :tabdo exec 'windo e'<CR>
+
 " fugitive leader mappings
 map <leader>gd :Gdiff<cr>
 map <leader>gs :Gstatus<cr>
 map <leader>gc :Gcommit -v<cr>
+map <leader>gcv :Gcommit --no-verify -v<cr>
 map <leader>gt :Gcommit -v -q %:p<cr>
 map <leader>go :Git checkout -- %:p
 map <leader>gl :Git log -n 5<cr>
 map <leader>gw :Gwrite<cr>
 map <Leader>gg :Ggrep<space>
+map <leader>gp :Git push<cr>
 nnoremap <leader>ga :Git add %:p<CR><CR>
 nnoremap <leader>grm :Git rm %:p<CR><CR>
 
@@ -53,6 +61,7 @@ nnoremap <Leader>zz :let &scrolloff=999-&scrolloff<CR>
 
 " buffergator so it doesn't interfere with pymode
 map <leader>bg :BuffergatorToggle<cr>
+map <Leader>lt :call ToggleBackground()<CR>
 
 " run Jasmine tests in current buffer
 map <leader>m :JasmineRedGreen<cr>
@@ -152,6 +161,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
+let g:ycm_path_to_python_interpreter = '/usr/bin/python'
+
 " silent! iunmap <CR>
 imap <S-Enter> <C-R>=UltiSnips#ExpandSnippetOrJump()<CR> 
 silent! iunmap <CR>
@@ -201,6 +212,9 @@ let g:pymode_rope_lookup_project = 0 " This at non-0 makes things unbearably slo
 let g:pymode_breakpoint = 1
 let g:pymode_breakpoint_bind = '<leader>pb'
 
+" Change some warnings
+let g:pymode_lint_ignore = "superfluous-parens"
+
 " custom macros
 
 " goes to the end of the current word and inserts at all instances of that
@@ -213,7 +227,6 @@ map <leader>ar @a
 set nowrap
 " numbers on left
 set number
-
 
 " Custom functions
 " python insert/remove IPython embed call
@@ -228,11 +241,25 @@ function! ToggleIPython()
     endif
 endfunction
 
+" toggle background
+function! ToggleBackground()
+    if &background =~ 'dark'
+            set background=light
+    else
+            set background=dark
+    endif
+endfunction
+
 " Filetype specific tabs and such
 autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
 autocmd FileType html setlocal shiftwidth=4 tabstop=4
-autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
+autocmd FileType css setlocal shiftwidth=4 tabstop=4
 autocmd FileType php setlocal shiftwidth=4 tabstop=4
+autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
+autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
+" JSON formatting and such
+au BufRead,BufNewFile *.aver setfiletype json
+nnoremap <leader>js :%!python -m json.tool<CR>
 
 " vim-javascript options
 let b:javascript_fold=1
