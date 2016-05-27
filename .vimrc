@@ -1,5 +1,5 @@
 " Stephen Hara (github.com/tarsir) dot vimrc
-" Most recent changes: July 16, 2015
+" Most recent changes: May 27, 2016
 " Some basic helpful factoids about this .vimrc:
 "   - uses Vundle
 "   - primarily for Python development
@@ -28,8 +28,8 @@ imap <C-s> <Esc>:w<CR>
 " and other niceties for Python
 map <leader>ip :call ToggleIPython()<CR>
 map <leader>pr :!python %<CR>
-map <leader>pv :Pytest file -s<CR>
-map <leader>pt :Pytest file<CR>
+" map <leader>pv :Pytest file -s<CR>
+" map <leader>pt :Pytest file<CR>
 map <leader>pdv :! $AVER_SOURCE/rouster/rind exec api py.test /aver/%<CR>
 
 " Ctrl-y to reload all windows in all tabs
@@ -57,11 +57,12 @@ map <C-l> <C-w>l
 map <C-a> :tabprevious<CR>
 map <C-d> :tabnext<CR>
 map <leader>tp :tabc<CR>
-nnoremap <Leader>zz :let &scrolloff=999-&scrolloff<CR>
+nnoremap <Leader>zz :let &scrolloff=15-&scrolloff<CR>
 
 " buffergator so it doesn't interfere with pymode
 map <leader>bg :BuffergatorToggle<cr>
 map <Leader>lt :call ToggleBackground()<CR>
+map <leader>li :call ITermConfig()<CR>
 
 " run Jasmine tests in current buffer
 map <leader>m :JasmineRedGreen<cr>
@@ -93,33 +94,15 @@ Plugin 'gmarik/Vundle.vim'
 
 "Python Plugins
 " Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-surround'
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'klen/python-mode'
-Plugin 'bling/vim-airline'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'groenewege/vim-less'
-Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'majutsushi/tagbar'
-Plugin 'StanAngeloff/php.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 Plugin 'alfredodeza/pytest.vim'
 
 " JavaScript/Node/Angular
 " Plugin 'moll/vim-node'
-" Plugin 'hallettj/jslint.vim'
-" Plugin 'walm/jshint.vim'
 " Plugin 'marijnh/tern_for_vim'
+Plugin 'walm/jshint.vim'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'pangloss/vim-javascript'
-Plugin 'godlygeek/tabular'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'guileen/vim-node-dict'
 Plugin 'othree/javascript-libraries-syntax.vim' 
@@ -130,6 +113,29 @@ Plugin 'matthewsimo/angular-vim-snippets'
 Plugin 'vim-scripts/dbext.vim'
 Plugin 'krisajenkins/vim-pipe'
 Plugin 'krisajenkins/vim-postgresql-syntax'
+
+" General vim plugins
+Plugin 'godlygeek/tabular'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'groenewege/vim-less'
+Plugin 'jeetsukumaran/vim-buffergator'
+Plugin 'majutsushi/tagbar'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'BufOnly.vim'
+Plugin 'rking/ag.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " All of your Plugins must be added before the following line
 call vundle#end()       
@@ -197,7 +203,7 @@ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
 " Airline config
 set laststatus=2
-let g:airline_theme = 'solarized'
+let g:airline_theme = 'wombat'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#branch#format = 0
 let g:airline_powerline_fonts = 1
@@ -208,6 +214,7 @@ endif
 " Pymode
 let g:pymode_lint_on_write = 1 " Code check on every modify save
 let g:pymode_rope = 0 " disable rope because FTS
+let g:pymode_rope_rename_bind = '<C-c>rr'
 let g:pymode_rope_lookup_project = 0 " This at non-0 makes things unbearably slow
 let g:pymode_breakpoint = 1
 let g:pymode_breakpoint_bind = '<leader>pb'
@@ -215,14 +222,24 @@ let g:pymode_breakpoint_bind = '<leader>pb'
 " Change some warnings
 let g:pymode_lint_ignore = "superfluous-parens"
 
+"" Ctrl-P settings
+" set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/bower_components/*,*/node_modules/*,*.pyc
+let g:ctrlp_custom_ignore = {
+    \   'dir': '\v[\/]((\.(git|hg|svn))|(bower_components|node_modules))$',
+    \   'file': '\v\.(pyc)$',
+    \ }
+
 " custom macros
 
 " goes to the end of the current word and inserts at all instances of that
 " word a "data_model." prefix to be verbose about imports from Core.data_model
 let @a='vey:1,$s/\("\)/data_model.\1/gc'
+
+" does an Ag search on the word under cursor
+let @s='yiw:Ag'
+
 " and then bind this to ',ar'
 map <leader>ar @a
-
 " no line wrap
 set nowrap
 " numbers on left
@@ -250,16 +267,30 @@ function! ToggleBackground()
     endif
 endfunction
 
+" solarized config for iterm
+function! ITermConfig()
+        let g:solarized_termtrans = 1
+        let g:solarized_visibility = "high"
+        let g:solarized_contrast = "high"
+        let g:solarized_termcolors = 16
+        colorscheme solarized
+endfunction
+
 " Filetype specific tabs and such
+autocmd FileType html setlocal shiftwidth=2 tabstop=2
 autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
-autocmd FileType html setlocal shiftwidth=4 tabstop=4
 autocmd FileType css setlocal shiftwidth=4 tabstop=4
 autocmd FileType php setlocal shiftwidth=4 tabstop=4
 autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
+autocmd FileType sh setlocal shiftwidth=4 tabstop=4
 autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
 " JSON formatting and such
 au BufRead,BufNewFile *.aver setfiletype json
+au Bufread,BufNewFile *.html setlocal textwidth=80
 nnoremap <leader>js :%!python -m json.tool<CR>
 
 " vim-javascript options
 let b:javascript_fold=1
+
+" misc settings
+set sj=-30

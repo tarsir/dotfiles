@@ -1,0 +1,20 @@
+# find out if we're running a virtualenv
+if [ -z ${VIRTUAL_ENV+x} ]; then # VIRTUAL_ENV is unset
+    echo "No virtual environment set here"
+    VIRTUAL_ENV_PROMPT_STR=""
+else
+    VIRTUAL_ENV_PROMPT_STR=" ($(basename `echo ${VIRTUAL_ENV}`))"
+    echo "Currently in ${VIRTUAL_ENV_PROMPT_STR:2:${#VIRTUAL_ENV_PROMPT_STR}-3}"
+fi
+
+# build the prompt because fuck this noise
+build_prompt() { 
+    DATETIME_STRING="\[$(tput setaf 6)\]\d \[$(tput setaf 4)\]"
+    VIRTUAL_ENV_STRING="\[$(tput setaf 3)\]${VIRTUAL_ENV_PROMPT_STR}"
+    CURRENT_DIR_STRING="\[$(tput setaf 1)\]\w"
+    USER_STRING="\[$(tput setaf 2)\]\u"
+    WAIT_WHAT_STRING="\[$(tput sgr0)\]"
+    GIT_BRANCH_STRING="\[$(tput setaf 7)\]$(__git_ps1)"
+
+    PS1="${DATETIME_STRING}\t ${VIRTUAL_ENV_STRING} ${CURRENT_DIR_STRING} ${GIT_BRANCH_STRING}\n    ${USER_STRING} >${WAIT_WHAT_STRING}"
+}

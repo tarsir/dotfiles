@@ -1,0 +1,48 @@
+GIT_REPO_DIR="${HOME}/GitDownloads/git/contrib/completion"
+GIT_COMPLETION_URL="https://raw.githubusercontent.com/git/git/master/contrib/completion"
+# make sure the two files I use exist
+if [ ! -e ${GIT_REPO_DIR}/git-completion.bash ]; then
+    echo "Downloading git-completion script"
+    curl -s ${GIT_COMPLETION_URL}/git-completion.bash > $GIT_REPO_DIR/git-completion.bash
+fi
+if [ ! -e ${GIT_REPO_DIR}/git-prompt.sh ]; then
+    echo "Downloading git-prompt script"
+    curl -s ${GIT_COMPLETION_URL}/git-prompt.sh > $GIT_REPO_DIR/git-prompt.sh
+fi
+
+source $GIT_REPO_DIR/git-completion.bash
+source $GIT_REPO_DIR/git-prompt.sh
+
+function _gco(){
+    git checkout "$@"
+    build_prompt
+}
+
+function _gitRemoteSet(){
+    git branch --set-upstream-to=origin/"$1" "$1"
+}
+
+function g.untracked {
+    g.s | sed -n -e '/Untracked files/,$p' | tail -n +4 | sed '$d' | sed '$d'
+}
+
+# nifty git aliases
+
+alias git-tree="git log --graph --pretty=oneline --abbrev-commit"
+alias g.log="clear; git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
+alias g.co="_gco"
+alias g.s="git status"
+alias g.d="git diff"
+alias g.b="git branch -v"
+alias g.p="git pull -r"
+alias g.c="git commit -v"
+alias g.cv="git commit --no-verify -v"
+alias g.grs="_gitRemoteSet"
+
+# add git aliases to auto-completion
+__git_complete g.co _git_checkout
+__git_complete g.s _git_status
+__git_complete g.d _git_diff
+__git_complete g.b _git_branch
+__git_complete g.p _git_pull
+
