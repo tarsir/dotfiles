@@ -7,10 +7,12 @@ requisite files that are basically just for easier organization.
 
 Simply clone the repo, then run the `setup_symlinks.sh` script.
 
-```git clone https://github.com/tarsir/dotfiles.git
+```bash
+git clone https://github.com/tarsir/dotfiles.git
 cd dotfiles
 chmod a+x setup_symlinks.sh
-./setup_symlinks.sh```
+./setup_symlinks.sh
+```
 
 It also takes a backup of the current version of any of these files that exist and
 puts them in a directory called `backups` off of the repository root.
