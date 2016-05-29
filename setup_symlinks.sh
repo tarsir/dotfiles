@@ -17,6 +17,7 @@ ln -s .averbash ~/.averbash
 ln -s .gitbash ~/.gitbash
 ln -s .promptbash ~/.promptbash
 ln -s .venvbash ~/.venvbash
-ln -s .vimrc ~/.vimrc
+# dunno why vimrc can't be symlinked without breaking shit
+cp .vimrc ~/.vimrc
 
 echo "Done!"
