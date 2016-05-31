@@ -13,12 +13,12 @@ for f in ${FILES[*]}; do
 done
 
 echo "And now we make the links anew"
-ln -s .dockerbash ~/.dockerbash
-ln -s .gitbash ~/.gitbash
-ln -s .promptbash ~/.promptbash
-ln -s .venvbash ~/.venvbash
-ln -s .bashrc ~/.bashrc
+ln -s $(pwd)/.dockerbash $HOME/.dockerbash
+ln -s $(pwd)/.gitbash $HOME/.gitbash
+ln -s $(pwd)/.promptbash $HOME/.promptbash
+ln -s $(pwd)/.venvbash $HOME/.venvbash
+ln -s $(pwd)/.bashrc $HOME/.bashrc
 # dunno why vimrc can't be symlinked without breaking shit
-cp .vimrc ~/.vimrc
+ln -s $(pwd)/.vimrc $HOME/.vimrc
 
 echo "Done!"

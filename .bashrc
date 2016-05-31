@@ -6,20 +6,20 @@ stty -ixon -ixoff
 
 # GIT
 
-src ~/.gitbash
+source ~/.gitbash
 
 # AVER
-src ~/.averbash
+source ~/.averbash
 
 # DOCKER
-src ~/.dockerbash
+source ~/.dockerbash
 
 # VIRTUALENVS
 
-src ~/.venvbash
+source ~/.venvbash
 
 # Prompt
-src ~/.promptbash
+source ~/.promptbash
 
 # MISC
 # other aliases
