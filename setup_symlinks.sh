@@ -17,6 +17,7 @@ ln -s .dockerbash ~/.dockerbash
 ln -s .gitbash ~/.gitbash
 ln -s .promptbash ~/.promptbash
 ln -s .venvbash ~/.venvbash
+ln -s .bashrc ~/.bashrc
 # dunno why vimrc can't be symlinked without breaking shit
 cp .vimrc ~/.vimrc
 
