@@ -11,6 +11,9 @@ src ~/.gitbash
 # AVER
 src ~/.averbash
 
+# DOCKER
+src ~/.dockerbash
+
 # VIRTUALENVS
 
 src ~/.venvbash
