@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Backing up existing files to this directory just in case"
-FILES=(".averbash" ".gitbash" ".promptbash" ".venvbash" ".vimrc")
+FILES=(".dockerbash" ".gitbash" ".promptbash" ".venvbash" ".vimrc")
 mkdir -p backups
 for f in ${FILES[*]}; do
     cp $f backups/backup$f
@@ -13,7 +13,7 @@ for f in ${FILES[*]}; do
 done
 
 echo "And now we make the links anew"
-ln -s .averbash ~/.averbash
+ln -s .dockerbash ~/.dockerbash
 ln -s .gitbash ~/.gitbash
 ln -s .promptbash ~/.promptbash
 ln -s .venvbash ~/.venvbash
