@@ -1,5 +1,5 @@
 " Stephen Hara (github.com/tarsir) dot vimrc
-" Most recent changes: May 27, 2016
+" Most recent changes: May 31, 2016
 " Some basic helpful factoids about this .vimrc:
 "   - uses Vundle
 "   - primarily for Python development
@@ -30,7 +30,6 @@ map <leader>ip :call ToggleIPython()<CR>
 map <leader>pr :!python %<CR>
 " map <leader>pv :Pytest file -s<CR>
 " map <leader>pt :Pytest file<CR>
-map <leader>pdv :! $AVER_SOURCE/rouster/rind exec api py.test /aver/%<CR>
 
 " Ctrl-y to reload all windows in all tabs
 map <C-y> :tabdo exec 'windo e'<CR>
@@ -76,24 +75,8 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-"Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-"Plugin 'L9'
-" Git plugin not hosted on GitHub
-"Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-"Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-"Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-"Plugin 'user/L9', {'name': 'newL9'}
 
 "Python Plugins
-" Plugin 'scrooloose/nerdcommenter'
 Plugin 'klen/python-mode'
 Plugin 'alfredodeza/pytest.vim'
 
@@ -150,7 +133,6 @@ filetype plugin indent on
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 
-" see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
 " Python tab width = 4 + tab into spaces
@@ -189,18 +171,6 @@ colorscheme solarized
 map <C-n> :NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$', '__pycache__']
 
-" Status line
-
-"set statusline=%{fugitive#statusline()} "fugitive status
-"set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
-"set statusline+=%{&ff}] "file format
-"set statusline+=%m  "modified flag
-"set statusline+=%y  "filetype
-"set statusline+=%=  "left/right separator
-"set statusline+=%c,  "cursor column
-"set statusline+=%l/%L  "cursor line/total lines
-"set statusline+=\ %P   "percent through file
-
 " Airline config
 set laststatus=2
 let g:airline_theme = 'wombat'
@@ -230,16 +200,8 @@ let g:ctrlp_custom_ignore = {
     \ }
 
 " custom macros
+" jk none right now
 
-" goes to the end of the current word and inserts at all instances of that
-" word a "data_model." prefix to be verbose about imports from Core.data_model
-let @a='vey:1,$s/\("\)/data_model.\1/gc'
-
-" does an Ag search on the word under cursor
-let @s='yiw:Ag'
-
-" and then bind this to ',ar'
-map <leader>ar @a
 " no line wrap
 set nowrap
 " numbers on left
