@@ -1,5 +1,8 @@
 function v.active {
     TARGET_ENV="$1"
+    if [[ "$TARGET_ENV" == "" ]]; then
+            deactivate
+    fi
     if [ -d "$HOME/.virtualenvs/$TARGET_ENV/" ]; then
             source "$HOME/.virtualenvs/$TARGET_ENV/bin/activate"
             source $HOME/.bashrc

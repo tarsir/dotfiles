@@ -21,6 +21,9 @@ source ~/.venvbash
 # Prompt
 source ~/.promptbash
 
+# install stuff
+source ~/.installbash
+
 # MISC
 # other aliases
 alias ls="ls -G"

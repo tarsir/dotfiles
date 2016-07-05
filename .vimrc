@@ -76,27 +76,6 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
-"Python Plugins
-Plugin 'klen/python-mode'
-Plugin 'alfredodeza/pytest.vim'
-
-" JavaScript/Node/Angular
-" Plugin 'moll/vim-node'
-" Plugin 'marijnh/tern_for_vim'
-Plugin 'walm/jshint.vim'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'pangloss/vim-javascript'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'guileen/vim-node-dict'
-Plugin 'othree/javascript-libraries-syntax.vim' 
-Plugin 'claco/jasmine.vim' 
-Plugin 'matthewsimo/angular-vim-snippets'
-
-" SQL what up
-Plugin 'vim-scripts/dbext.vim'
-Plugin 'krisajenkins/vim-pipe'
-Plugin 'krisajenkins/vim-postgresql-syntax'
-
 " General vim plugins
 Plugin 'godlygeek/tabular'
 Plugin 'vim-airline/vim-airline'
@@ -119,6 +98,35 @@ Plugin 'BufOnly.vim'
 Plugin 'rking/ag.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+
+" JavaScript/Node/Angular
+" Plugin 'moll/vim-node'
+" Plugin 'marijnh/tern_for_vim'
+Plugin 'walm/jshint.vim'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'pangloss/vim-javascript'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'guileen/vim-node-dict'
+Plugin 'othree/javascript-libraries-syntax.vim' 
+Plugin 'claco/jasmine.vim' 
+Plugin 'matthewsimo/angular-vim-snippets'
+
+" SQL what up
+Plugin 'vim-scripts/dbext.vim'
+Plugin 'krisajenkins/vim-pipe'
+Plugin 'krisajenkins/vim-postgresql-syntax'
+
+" Elixir
+Plugin 'elixir-lang/vim-elixir'
+Plugin 'mattonrails/vim-mix'
+Plugin 'slashmili/alchemist.vim'
+
+" Rust
+Plugin 'rust-lang/rust.vim'
+
+"Python Plugins
+Plugin 'klen/python-mode'
+Plugin 'alfredodeza/pytest.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()       
@@ -169,7 +177,7 @@ colorscheme solarized
 
 "NerdTree
 map <C-n> :NERDTreeToggle<CR>
-let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+let NERDTreeIgnore = ['\.pyc$', '__pycache__', '\.o$']
 
 " Airline config
 set laststatus=2
@@ -182,8 +190,8 @@ if !exists('g:airline_symbols')
 endif
 
 " Pymode
-let g:pymode_lint_on_write = 1 " Code check on every modify save
-let g:pymode_rope = 0 " disable rope because FTS
+let g:pymode_lint_on_write = 0 " Code check on every modify save
+let g:pymode_rope = 1 " disable rope because FTS
 let g:pymode_rope_rename_bind = '<C-c>rr'
 let g:pymode_rope_lookup_project = 0 " This at non-0 makes things unbearably slow
 let g:pymode_breakpoint = 1
@@ -245,6 +253,7 @@ autocmd FileType css setlocal shiftwidth=4 tabstop=4
 autocmd FileType php setlocal shiftwidth=4 tabstop=4
 autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
 autocmd FileType sh setlocal shiftwidth=4 tabstop=4
+autocmd FileType pl setlocal shiftwidth=4 tabstop=4
 autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
 " JSON formatting and such
 au BufRead,BufNewFile *.aver setfiletype json

@@ -4,7 +4,7 @@ function d.use {
 }
 
 function d.cid {
-    docker ps | grep $1 | cut -d " " -f 1
+    docker ps | grep $1 | grep "Up" | cut -d " " -f 1
 }
 
 function d.bash {
@@ -12,12 +12,14 @@ function d.bash {
     if [ ${CONTAINER_NAME} = "" ]; then
         echo "Please specify a container name"
     else
-        docker exec -i -t $(d.cid ${CONTAINER_NAME}) bash
+        CONTAINER_ID=$(d.cid ${CONTAINER_NAME})
+        echo "Connecting to container ${CONTAINER_ID}"
+        docker exec -it ${CONTAINER_ID} bash
     fi
 }
 
 alias dm='docker-machine'
 alias dc='docker-compose'
 alias d.nuke='docker stop $(docker ps -a -q) && docker rm --volumes=true $(docker ps -a -q)'
-alias d.inf="docker ps"
+alias d.inf="docker ps -a"
 alias d.rs="docker-machine restart"
