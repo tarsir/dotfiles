@@ -5,17 +5,15 @@ fi
 stty -ixon -ixoff
 
 # GIT
-
 source ~/.gitbash
-
-# AVER
-source ~/.averbash
 
 # DOCKER
 source ~/.dockerbash
 
-# VIRTUALENVS
+# AVER
+source ~/.averbash
 
+# VIRTUALENVS
 source ~/.venvbash
 
 # Prompt
@@ -32,6 +30,11 @@ alias del.tilde='find . -type f -name "*~" -delete'
 alias del.orig='find . -type f -name "*orig" -delete'
 alias del.clean='del.pyc && del.tilde && del.orig'
 
+function find.big {
+    SIZE="${1:-+200M}"
+    find . -size "${SIZE}" -exec ls -lh {} \;
+}
+
 function f.diff {
     TARGET_FILE=${1}
     TARGET_BRANCH=${2:-informatics/develop}
@@ -45,6 +48,10 @@ function source__ {
 
 alias src="source__"
 source ~/.dvm/dvm.sh
+
+# Path settings
+export NODE_PATH=/usr/local/lib/node_modules
+export PATH="$PATH:/usr/local/sbin"
 
 init() {
     build_prompt

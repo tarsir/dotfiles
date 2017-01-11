@@ -1,6 +1,7 @@
 ### DOCKER
 function d.use {
     eval $(docker-machine env $1)
+    build_prompt
 }
 
 function d.cid {
@@ -16,6 +17,24 @@ function d.bash {
         echo "Connecting to container ${CONTAINER_ID}"
         docker exec -it ${CONTAINER_ID} bash
     fi
+}
+
+function d.test {
+    # runs python tests - maybe make this cool later idk
+    docker exec -t $(d.cid avercloud_app) py.test /aver/avercloud/test/app
+}
+
+function d.rps { 
+    # to get running containers
+    docker ps -a --filter "status=running" --format "{{.ID}} | {{.Status}} | {{.Command}} | {{.Image}}"
+}
+
+function d.up {
+    docker-compose up -d --force-recreate && dc logs -f app web
+}
+
+function d.rs {
+    docker-compose up -d --force-recreate ${ARGS[*]} && dc logs -f app web
 }
 
 alias dm='docker-machine'
