@@ -33,7 +33,7 @@ alias g.log="clear; git log --graph --format=format:'%C(bold blue)%h%C(reset) - 
 alias g.co="_gco"
 alias g.s="git status"
 alias g.d="git diff"
-alias g.b="git branch -v"
+alias g.b="git branch -v --sort=committerdate"
 alias g.p="git pull -r"
 alias g.c="git commit -v"
 alias g.cv="git commit --no-verify -v"
@@ -46,3 +46,5 @@ __git_complete g.d _git_diff
 __git_complete g.b _git_branch
 __git_complete g.p _git_pull
 
+# Use this .gitignore for system
+git config --global core.excludesfile './.gitignore'

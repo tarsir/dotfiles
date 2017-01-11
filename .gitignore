@@ -1,2 +1,9 @@
+# Ignores for this project
 backups/*
 *.bkup
+
+# Things to ignore globally
+**/.ropeproject
+**/.cache
+*.swp
+*.swo
