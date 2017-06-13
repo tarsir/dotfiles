@@ -78,13 +78,9 @@ Plugin 'gmarik/Vundle.vim'
 
 " General vim plugins
 Plugin 'godlygeek/tabular'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'airblade/vim-gitgutter'
 Plugin 'groenewege/vim-less'
 Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'majutsushi/tagbar'
-Plugin 'StanAngeloff/php.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-commentary'
@@ -93,11 +89,18 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'BufOnly.vim'
 Plugin 'rking/ag.vim'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'editorconfig/editorconfig-vim'
+
+" Color schemes and aesthetics
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'morhetz/gruvbox'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'airblade/vim-gitgutter'
 
 " JavaScript/Node/Angular
 " Plugin 'moll/vim-node'
@@ -128,6 +131,11 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'klen/python-mode'
 Plugin 'alfredodeza/pytest.vim'
 
+" PHP Plugins
+Plugin '2072/PHP-Indenting-for-VIm'
+Plugin 'StanAngeloff/php.vim'
+
+
 " All of your Plugins must be added before the following line
 call vundle#end()       
 syntax enable
@@ -150,8 +158,8 @@ autocmd BufWritePre *.py :%s/\s\+$//e
 
 " UltiSnips config
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<cr>"
-let g:UltiSnipsJumpForwardTrigger="<cr>"
+let g:UltiSnipsExpandTrigger="<c-i>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
@@ -160,8 +168,8 @@ let g:UltiSnipsEditSplit="vertical"
 let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 
 " silent! iunmap <CR>
-imap <S-Enter> <C-R>=UltiSnips#ExpandSnippetOrJump()<CR> 
 silent! iunmap <CR>
+imap <S-Enter> <C-R>=UltiSnips#ExpandSnippetOrJump()<CR> 
 
 
 " Javascript lib syntax for completions
@@ -172,8 +180,13 @@ autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_coffee = 1
 
 "Solarized config
+" set background=dark
+" colorscheme solarized
+
+" Colorscheme (gruvbox) config
 set background=dark
-colorscheme solarized
+let g:gruvbox_termcolors = 16
+colorscheme gruvbox
 
 "NerdTree
 map <C-n> :NERDTreeToggle<CR>
@@ -243,7 +256,7 @@ function! ITermConfig()
         let g:solarized_visibility = "high"
         let g:solarized_contrast = "high"
         let g:solarized_termcolors = 16
-        colorscheme solarized
+        " colorscheme solarized
 endfunction
 
 " Filetype specific tabs and such
@@ -255,9 +268,13 @@ autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
 autocmd FileType sh setlocal shiftwidth=4 tabstop=4
 autocmd FileType pl setlocal shiftwidth=4 tabstop=4
 autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
-" JSON formatting and such
+
+" Filetype behavior
 au BufRead,BufNewFile *.aver setfiletype json
 au Bufread,BufNewFile *.html setlocal textwidth=80
+au Bufread,BufNewFile,BufEnter *.php setfiletype php.html
+
+" Misc
 nnoremap <leader>js :%!python -m json.tool<CR>
 
 " vim-javascript options
@@ -265,3 +282,4 @@ let b:javascript_fold=1
 
 " misc settings
 set sj=-30
+" call ITermConfig()
