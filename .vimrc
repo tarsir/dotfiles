@@ -5,14 +5,37 @@
 "   - primarily for Python development
 "   - also makes use of some Angular and Javascript fun stuff
 
+" Detect OS
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+        let g:home = "$HOME"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+        let g:home = "~""
+    endif
+endif
+
+" Check if we're in nvim
+if !exists("s:editor_root")
+	if has('nvim')
+		let s:editor_root=expand(g:home . "/.config/nvim")
+	else
+		let s:editor_root=expand(g:home . "/.vim")
+	end
+endif
+
 " Some basic stuff up front
 set backspace=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " Custom pymode options
-let g:pymode_options_max_line_length = 99
-let g:pymode_lint_ignore = "R0201"
+" let g:pymode_options_max_line_length = 99
+" let g:pymode_lint_ignore = "R0201"
 
 " Change leader because reasons
 let mapleader = ","
@@ -26,8 +49,8 @@ imap <C-s> <Esc>:w<CR>
 
 "python toggle IPython embed
 " and other niceties for Python
-map <leader>ip :call ToggleIPython()<CR>
-map <leader>pr :!python %<CR>
+" map <leader>ip :call ToggleIPython()<CR>
+" map <leader>pr :!python %<CR>
 " map <leader>pv :Pytest file -s<CR>
 " map <leader>pt :Pytest file<CR>
 
@@ -71,18 +94,17 @@ map <C-t> :TagbarToggle<cr>
 
 " Vundle list
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+let &rtp = &rtp . ',' . s:editor_root . '/bundle/Vundle.vim'
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 
 " General vim plugins
-Plugin 'godlygeek/tabular'
-Plugin 'groenewege/vim-less'
-Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'majutsushi/tagbar'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-fugitive'
+Plugin 'SirVer/ultisnips'
+Plugin 'godlygeek/tabular'
+Plugin 'jeetsukumaran/vim-buffergator'
+" Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
@@ -91,33 +113,36 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'BufOnly.vim'
 Plugin 'rking/ag.vim'
-Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'editorconfig/editorconfig-vim'
+
+" Git 'r done
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
 
 " Color schemes and aesthetics
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'airblade/vim-gitgutter'
 
-" JavaScript/Node/Angular
-" Plugin 'moll/vim-node'
-" Plugin 'marijnh/tern_for_vim'
+" JavaScript/Node/Angular/CSS
+Plugin 'moll/vim-node'
+Plugin 'guileen/vim-node-dict'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'claco/jasmine.vim' 
+Plugin 'posva/vim-vue'
+
 Plugin 'walm/jshint.vim'
-Plugin 'kchmck/vim-coffee-script'
 Plugin 'pangloss/vim-javascript'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'guileen/vim-node-dict'
 Plugin 'othree/javascript-libraries-syntax.vim' 
-Plugin 'claco/jasmine.vim' 
-Plugin 'matthewsimo/angular-vim-snippets'
+Plugin 'groenewege/vim-less'
 
 " SQL what up
-Plugin 'vim-scripts/dbext.vim'
-Plugin 'krisajenkins/vim-pipe'
-Plugin 'krisajenkins/vim-postgresql-syntax'
+" Plugin 'vim-scripts/dbext.vim'
+" Plugin 'krisajenkins/vim-pipe'
+" Plugin 'krisajenkins/vim-postgresql-syntax'
 
 " Elixir
 Plugin 'elixir-lang/vim-elixir'
@@ -125,7 +150,7 @@ Plugin 'mattonrails/vim-mix'
 Plugin 'slashmili/alchemist.vim'
 
 " Rust
-Plugin 'rust-lang/rust.vim'
+" Plugin 'rust-lang/rust.vim'
 
 "Python Plugins
 Plugin 'klen/python-mode'
@@ -152,9 +177,8 @@ filetype plugin indent on
 " Put your non-Plugin stuff after this line
 
 " Python tab width = 4 + tab into spaces
-set ts=4
-set expandtab
-autocmd BufWritePre *.py :%s/\s\+$//e
+" set ts=4
+" autocmd BufWritePre *.py :%s/\s\+$//e
 
 " UltiSnips config
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -162,7 +186,7 @@ let g:UltiSnipsExpandTrigger="<c-i>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" If you want :UltiSnipsEdit to split your window.
+" " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
 let g:ycm_path_to_python_interpreter = '/usr/bin/python'
@@ -190,7 +214,7 @@ colorscheme gruvbox
 
 "NerdTree
 map <C-n> :NERDTreeToggle<CR>
-let NERDTreeIgnore = ['\.pyc$', '__pycache__', '\.o$']
+let NERDTreeIgnore = ['\.pyc$', '__pycache__', '\.o$', 'node_modules', 'swp$', 'smartcare/$', '.cache']
 
 " Airline config
 set laststatus=2
@@ -202,22 +226,25 @@ if !exists('g:airline_symbols')
         let g:airline_symbols = {}
 endif
 
-" Pymode
-let g:pymode_lint_on_write = 0 " Code check on every modify save
-let g:pymode_rope = 1 " disable rope because FTS
-let g:pymode_rope_rename_bind = '<C-c>rr'
-let g:pymode_rope_lookup_project = 0 " This at non-0 makes things unbearably slow
-let g:pymode_breakpoint = 1
-let g:pymode_breakpoint_bind = '<leader>pb'
+" Gitgutter
+let g:gitgutter_eager = 0
 
-" Change some warnings
-let g:pymode_lint_ignore = "superfluous-parens"
+" " Pymode
+let g:pymode_lint_on_write = 0 " Code check on every modify save
+let g:pymode_rope = 0 " disable rope because FTS
+" let g:pymode_rope_rename_bind = '<C-c>rr'
+" let g:pymode_rope_lookup_project = 0 " This at non-0 makes things unbearably slow
+" let g:pymode_breakpoint = 1
+" let g:pymode_breakpoint_bind = '<leader>pb'
+
+" " Change some warnings
+" let g:pymode_lint_ignore = "superfluous-parens"
 
 "" Ctrl-P settings
 " set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/bower_components/*,*/node_modules/*,*.pyc
 let g:ctrlp_custom_ignore = {
-    \   'dir': '\v[\/]((\.(git|hg|svn))|(bower_components|node_modules))$',
-    \   'file': '\v\.(pyc)$',
+    \   'dir': '\v[\/]((\.(git|hg|svn))|(bower_components|node_modules|vendor|migrations))$',
+    \   'file': '\v\.((pyc)|(min\.js)|(jpg|png|gif|bmp))$',
     \ }
 
 " custom macros
@@ -230,16 +257,16 @@ set number
 
 " Custom functions
 " python insert/remove IPython embed call
-function! ToggleIPython()
-    let line=getline('.')
-    if line =~ "import IPython"
-        execute "normal! dd"
-    else
-        execute "normal! O"
-        call setline('.', "import IPython; IPython.embed()")
-        execute "normal! =="
-    endif
-endfunction
+" function! ToggleIPython()
+"     let line=getline('.')
+"     if line =~ "import IPython"
+"         execute "normal! dd"
+"     else
+"         execute "normal! O"
+"         call setline('.', "import IPython; IPython.embed()")
+"         execute "normal! =="
+"     endif
+" endfunction
 
 " toggle background
 function! ToggleBackground()
@@ -260,19 +287,18 @@ function! ITermConfig()
 endfunction
 
 " Filetype specific tabs and such
-autocmd FileType html setlocal shiftwidth=2 tabstop=2
-autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
-autocmd FileType css setlocal shiftwidth=4 tabstop=4
-autocmd FileType php setlocal shiftwidth=4 tabstop=4
-autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
-autocmd FileType sh setlocal shiftwidth=4 tabstop=4
-autocmd FileType pl setlocal shiftwidth=4 tabstop=4
-autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType css setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType php setlocal shiftwidth=4 tabstop=4 softtabstop=4
+" autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
+" autocmd FileType sh setlocal shiftwidth=4 tabstop=4
+" autocmd FileType pl setlocal shiftwidth=4 tabstop=4
+" autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
 
 " Filetype behavior
-au BufRead,BufNewFile *.aver setfiletype json
 au Bufread,BufNewFile *.html setlocal textwidth=80
-au Bufread,BufNewFile,BufEnter *.php setfiletype php.html
+au Bufread,BufEnter *.php setfiletype php
 
 " Misc
 nnoremap <leader>js :%!python -m json.tool<CR>
@@ -282,4 +308,5 @@ let b:javascript_fold=1
 
 " misc settings
 set sj=-30
+set expandtab
 " call ITermConfig()
