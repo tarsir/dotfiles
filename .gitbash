@@ -1,4 +1,4 @@
-GIT_REPO_DIR="${HOME}/GitDownloads/git/contrib/completion"
+GIT_REPO_DIR="${HOME}/Development/gitcomplete/git/contrib/completion"
 GIT_COMPLETION_URL="https://raw.githubusercontent.com/git/git/master/contrib/completion"
 # make sure the two files I use exist
 
@@ -49,4 +49,4 @@ __git_complete g.b _git_branch
 __git_complete g.p _git_pull
 
 # Use this .gitignore for system
-git config --global core.excludesfile './.gitignore'
+git config --global core.excludesfile '~/.gitignore'

@@ -10,14 +10,9 @@ source ~/.gitbash
 # DOCKER
 source ~/.dockerbash
 
-# VIRTUALENVS
 source ~/.venvbash
-
 # Prompt
 source ~/.promptbash
-
-# install stuff
-source ~/.installbash
 
 # MISC
 # other aliases
@@ -34,7 +29,7 @@ function find.big {
 
 function f.diff {
     TARGET_FILE=${1}
-    TARGET_BRANCH=${2:-informatics/develop}
+    TARGET_BRANCH=${2}
     find . -name "*${TARGET_FILE}" | xargs -I{} git diff ${TARGET_BRANCH} {}
 }
 
@@ -52,6 +47,11 @@ export PATH="$PATH:/mnt/c/Programming/Language Installs/Node4.8/bin"
 
 init() {
     build_prompt
+}
+
+start_ssh_agent() {
+    eval $(ssh-agent -s)
+    ssh-add ~/.ssh/id_rsa
 }
 
 init
