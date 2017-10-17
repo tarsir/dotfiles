@@ -1,6 +1,8 @@
 GIT_REPO_DIR="${HOME}/GitDownloads/git/contrib/completion"
 GIT_COMPLETION_URL="https://raw.githubusercontent.com/git/git/master/contrib/completion"
 # make sure the two files I use exist
+
+mkdir -p ${GIT_REPO_DIR}
 if [ ! -e ${GIT_REPO_DIR}/git-completion.bash ]; then
     echo "Downloading git-completion script"
     curl -s ${GIT_COMPLETION_URL}/git-completion.bash > $GIT_REPO_DIR/git-completion.bash

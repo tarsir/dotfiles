@@ -10,9 +10,6 @@ source ~/.gitbash
 # DOCKER
 source ~/.dockerbash
 
-# AVER
-source ~/.averbash
-
 # VIRTUALENVS
 source ~/.venvbash
 
@@ -47,14 +44,23 @@ function source__ {
 }
 
 alias src="source__"
-source ~/.dvm/dvm.sh
 
 # Path settings
 export NODE_PATH=/usr/local/lib/node_modules
 export PATH="$PATH:/usr/local/sbin"
+export PATH="$PATH:/mnt/c/Programming/Language Installs/Node4.8/bin"
 
 init() {
     build_prompt
 }
 
 init
+
+function start_ssh_agent {
+    eval $(ssh-agent -s)
+    ssh-add /mnt/c/Users/sthar/.ssh/id_rsa
+}
+
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
