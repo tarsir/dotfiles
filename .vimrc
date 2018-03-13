@@ -92,12 +92,24 @@ map <leader>m :JasmineRedGreen<cr>
 " TagbarToggle
 map <C-t> :TagbarToggle<cr>
 
+" Auto-fetch vundle if not installed
+let hasVundle=1
+let vundle_readme=expand(s:editor_root . '/bundle/Vundle.vim')
+
+if !filereadable(vundle_readme)
+    echo "Installing Vundle..."
+    echo ""
+    exec "!mkdir -p " .  s:editor_root
+    exec "!git clone https://github.com/VundleVim/Vundle.vim.git " . s:editor_root . "/bundle/Vundle.vim"
+    let hasVundle=0
+endif
+
 " Vundle list
 " set the runtime path to include Vundle and initialize
 let &rtp = &rtp . ',' . s:editor_root . '/bundle/Vundle.vim'
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " General vim plugins
 Plugin 'Valloric/YouCompleteMe'
@@ -160,6 +172,11 @@ Plugin 'alfredodeza/pytest.vim'
 Plugin '2072/PHP-Indenting-for-VIm'
 Plugin 'StanAngeloff/php.vim'
 
+if hasVundle == 0
+    echo "Installing your bundles, please hold"
+    echo ""
+    PluginInstall
+endif
 
 " All of your Plugins must be added before the following line
 call vundle#end()       
