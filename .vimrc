@@ -304,16 +304,16 @@ function! ITermConfig()
 endfunction
 
 " Filetype specific tabs and such
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType css setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType php setlocal shiftwidth=4 tabstop=4 softtabstop=4
-" autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
-" autocmd FileType sh setlocal shiftwidth=4 tabstop=4
-" autocmd FileType pl setlocal shiftwidth=4 tabstop=4
-" autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
-
-" Filetype behavior
+autocmd FileType html,ruby setlocal shiftwidth=2 tabstop=2
+autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
+autocmd FileType css setlocal shiftwidth=4 tabstop=4
+autocmd FileType php setlocal shiftwidth=4 tabstop=4
+autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
+autocmd FileType sh setlocal shiftwidth=4 tabstop=4
+autocmd FileType pl setlocal shiftwidth=4 tabstop=4
+autocmd FileType sql let b:vimpipe_command="d.bash postgres psql mydb myuser"
+" JSON formatting and such
+au BufRead,BufNewFile *.aver setfiletype json
 au Bufread,BufNewFile *.html setlocal textwidth=80
 au Bufread,BufEnter *.php setfiletype php
 
@@ -327,3 +327,4 @@ let b:javascript_fold=1
 set sj=-30
 set expandtab
 " call ITermConfig()
+set ff=unix

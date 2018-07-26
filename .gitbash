@@ -1,7 +1,6 @@
-GIT_REPO_DIR="${HOME}/Development/gitcomplete/git/contrib/completion"
+GIT_REPO_DIR="${HOME}/Development/git_downloads/git/contrib/completion"
 GIT_COMPLETION_URL="https://raw.githubusercontent.com/git/git/master/contrib/completion"
 # make sure the two files I use exist
-
 mkdir -p ${GIT_REPO_DIR}
 if [ ! -e ${GIT_REPO_DIR}/git-completion.bash ]; then
     echo "Downloading git-completion script"
