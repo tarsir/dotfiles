@@ -5,6 +5,7 @@
 "   - primarily for Python development
 "   - also makes use of some Angular and Javascript fun stuff
 
+
 " Detect OS
 if !exists("g:os")
     if has("win64") || has("win32") || has("win16")
@@ -143,13 +144,13 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'moll/vim-node'
 Plugin 'guileen/vim-node-dict'
 Plugin 'marijnh/tern_for_vim'
-Plugin 'claco/jasmine.vim' 
+Plugin 'claco/jasmine.vim'
 Plugin 'posva/vim-vue'
 
 Plugin 'walm/jshint.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'othree/javascript-libraries-syntax.vim' 
+Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'groenewege/vim-less'
 
 " SQL what up
@@ -180,7 +181,7 @@ if hasVundle == 0
 endif
 
 " All of your Plugins must be added before the following line
-call vundle#end()       
+call vundle#end()
 syntax enable
 filetype plugin indent on
 " To ignore plugin indent changes, instead use:
@@ -211,7 +212,7 @@ let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 
 " silent! iunmap <CR>
 silent! iunmap <CR>
-imap <S-Enter> <C-R>=UltiSnips#ExpandSnippetOrJump()<CR> 
+imap <S-Enter> <C-R>=UltiSnips#ExpandSnippetOrJump()<CR>
 
 
 " Javascript lib syntax for completions
