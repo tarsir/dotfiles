@@ -86,15 +86,16 @@ map <leader>bg :BuffergatorToggle<cr>
 map <Leader>lt :call ToggleBackground()<CR>
 map <leader>li :call ITermConfig()<CR>
 
-" run Jasmine tests in current buffer
-map <leader>m :JasmineRedGreen<cr>
+" run tests in current buffer
+map <leader>mjs :JasmineRedGreen<cr>
+map <leader>mex :!mix test %:p<cr>
 
 " TagbarToggle
 map <C-t> :TagbarToggle<cr>
 
 " Auto-fetch vundle if not installed
 let hasVundle=1
-let vundle_readme=expand(s:editor_root . '/bundle/Vundle.vim')
+let vundle_readme=expand(s:editor_root . '/bundle/Vundle.vim/README.md')
 
 if !filereadable(vundle_readme)
     echo "Installing Vundle..."
@@ -260,7 +261,7 @@ let g:pymode_rope = 0 " disable rope because FTS
 "" Ctrl-P settings
 " set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/bower_components/*,*/node_modules/*,*.pyc
 let g:ctrlp_custom_ignore = {
-    \   'dir': '\v[\/]((\.(git|hg|svn))|(bower_components|node_modules|vendor|migrations))$',
+    \   'dir': '\v[\/]((\.(git|hg|svn))|(bower_components|node_modules|vendor|_build|tmp))$',
     \   'file': '\v\.((pyc)|(min\.js)|(jpg|png|gif|bmp))$',
     \ }
 
@@ -304,10 +305,11 @@ function! ITermConfig()
 endfunction
 
 " Filetype specific tabs and such
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType html,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType css setlocal shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType php setlocal shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType ex,exs setlocal shiftwidth=2 tabstop=2 softtabstop=2
 " autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
 " autocmd FileType sh setlocal shiftwidth=4 tabstop=4
 " autocmd FileType pl setlocal shiftwidth=4 tabstop=4

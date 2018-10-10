@@ -2,7 +2,9 @@
 build_prompt() { 
 # find out if we're running a virtualenv
     if [ -z ${VIRTUAL_ENV+x} ]; then # VIRTUAL_ENV is unset
-        echo "No virtual environment set here"
+        if [ $(pwd) == ~ ]; then
+            echo "No virtual environment set here"
+        fi
         VIRTUAL_ENV_PROMPT_STR=""
     else
         VIRTUAL_ENV_PROMPT_STR=" ($(basename `echo ${VIRTUAL_ENV}`))"
