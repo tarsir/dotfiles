@@ -94,7 +94,7 @@ map <C-t> :TagbarToggle<cr>
 
 " Auto-fetch vundle if not installed
 let hasVundle=1
-let vundle_readme=expand(s:editor_root . '/bundle/Vundle.vim')
+let vundle_readme=expand(s:editor_root . '/bundle/Vundle.vim/README.md')
 
 if !filereadable(vundle_readme)
     echo "Installing Vundle..."
