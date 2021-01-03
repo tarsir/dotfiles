@@ -21,6 +21,10 @@ alias del.tilde='find . -type f -name "*~" -delete'
 alias del.orig='find . -type f -name "*orig" -delete'
 alias del.clean='del.pyc && del.tilde && del.orig'
 
+function du.all {
+    sudo du -d 1 | sort -n -r > filesizes.txt
+}
+
 function find.big {
     SIZE="${1:-+200M}"
     find . -size "${SIZE}" -exec ls -lh {} \;
@@ -46,27 +50,11 @@ init() {
     build_prompt
 }
 
-cd_with_prompt_change() {
-    cd $1
-    build_prompt
-}
-
 start_ssh_agent() {
     eval $(ssh-agent -s)
     ssh-add ~/.ssh/id_rsa
 }
 
-alias cd="cd_with_prompt_change"
-if [ ! -e "$HOME/.asdf" ]; then
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-	cd ~/.asdf
-	git checkout "$(git describe --abbrev=0 --tags)"
-fi
-
-if [ -z "$ASDF_SET" ]; then
-	. $HOME/.asdf/asdf.sh
-	. $HOME/.asdf/completions/asdf.bash
-	export ASDF_SET="true"
-fi
-
 init
+
+complete -C /usr/local/bin/bit bit

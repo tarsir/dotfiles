@@ -54,3 +54,10 @@ __git_complete g.p _git_pull
 
 # Use this .gitignore for system
 git config --global core.excludesfile '~/.gitignore'
+
+# ez dos2unix on all modified files
+function line_endings() {
+    for f in $(git status -s | awk '{for (i = 1; i <= NF; i++) { if ($i != "M" && $i != "A" && $i != "D") { print $i }}}')
+        do dos2unix $f
+    done
+}
