@@ -114,11 +114,10 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " General vim plugins
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'SirVer/ultisnips'
 Plugin 'godlygeek/tabular'
 Plugin 'jeetsukumaran/vim-buffergator'
-" Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
@@ -153,10 +152,8 @@ Plugin 'jelera/vim-javascript-syntax'
 Plugin 'othree/javascript-libraries-syntax.vim'
 Plugin 'groenewege/vim-less'
 
-" SQL what up
-" Plugin 'vim-scripts/dbext.vim'
-" Plugin 'krisajenkins/vim-pipe'
-" Plugin 'krisajenkins/vim-postgresql-syntax'
+" Ruby
+" Plugin 'vim-ruby/vim-ruby'
 
 " Elixir
 Plugin 'elixir-lang/vim-elixir'
@@ -167,12 +164,12 @@ Plugin 'slashmili/alchemist.vim'
 " Plugin 'rust-lang/rust.vim'
 
 "Python Plugins
-Plugin 'klen/python-mode'
-Plugin 'alfredodeza/pytest.vim'
+" Plugin 'klen/python-mode'
+" Plugin 'alfredodeza/pytest.vim'
 
 " PHP Plugins
-Plugin '2072/PHP-Indenting-for-VIm'
-Plugin 'StanAngeloff/php.vim'
+" Plugin '2072/PHP-Indenting-for-VIm'
+" Plugin 'StanAngeloff/php.vim'
 
 if hasVundle == 0
     echo "Installing your bundles, please hold"
@@ -214,6 +211,31 @@ let g:ycm_path_to_python_interpreter = '/usr/bin/python'
 silent! iunmap <CR>
 imap <S-Enter> <C-R>=UltiSnips#ExpandSnippetOrJump()<CR>
 
+" COC config
+inoremap <silent><expr> <TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1] =~# '\s'
+endfunction
+
+" CR for completion
+inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Highlight symbol under cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+nnoremap <silent> <space>c :<C-u>CocList commands<cr>
 
 " Javascript lib syntax for completions
 autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
@@ -262,7 +284,7 @@ let g:pymode_rope = 0 " disable rope because FTS
 "" Ctrl-P settings
 " set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/bower_components/*,*/node_modules/*,*.pyc
 let g:ctrlp_custom_ignore = {
-    \   'dir': '\v[\/]((\.(git|hg|svn))|(bower_components|node_modules|vendor|_build|tmp))$',
+    \   'dir': '\v[\/]((\.(git|hg|svn))|(bower_components|node_modules|vendor|migrations|tmp|_build|deps|site-packages))$',
     \   'file': '\v\.((pyc)|(min\.js)|(jpg|png|gif|bmp))$',
     \ }
 
@@ -311,6 +333,7 @@ autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType css setlocal shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType php setlocal shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType ex,exs setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType vue setlocal shiftwidth=2 tabstop=2 softtabstop=2
 " autocmd FileType cpp setlocal shiftwidth=4 tabstop=4
 " autocmd FileType sh setlocal shiftwidth=4 tabstop=4
 " autocmd FileType pl setlocal shiftwidth=4 tabstop=4

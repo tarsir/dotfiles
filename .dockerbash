@@ -1,7 +1,28 @@
 ### DOCKER
-function d.use {
-    eval $(docker-machine env $1)
+
+export DOCKER_TOOLBOX_INSTALL_PATH="/mnt/g/Installations/Docker Toolbox/"
+export VBOX_MSI_INSTALL_PATH="/mnt/c/Program Files/Oracle/VirtualBox/"
+
+function set_dockermachine_nix  {
+    eval $(dm env $1)
     build_prompt
+}
+
+function set_dockermachine_windows {
+    eval $(dm env $1 | grep -v "^REM" | sed 's/^SET/export/' | sed 's/C:/\/mnt\/c/' | sed 's/\\/\//g')
+    build_prompt
+}
+
+function w.docker_alias {
+    alias docker="docker.exe"
+    alias dm="docker-machine.exe"
+    alias dc="docker-compose.exe"
+    alias d.rs="docker-machine.exe restart"
+    alias d.use="set_dockermachine_windows"
+}
+
+function s.docker {
+    /mnt/g/Installations/Docker\ Toolbox/start_bash.sh
 }
 
 function d.cid {
@@ -42,3 +63,6 @@ alias dc='docker-compose'
 alias d.nuke='docker stop $(docker ps -a -q) && docker rm --volumes=true $(docker ps -a -q)'
 alias d.inf="docker ps -a"
 alias d.rs="docker-machine restart"
+alias d.use="set_dockermachine_nix"
+
+export PATH="${PATH}:${DOCKER_TOOLBOX_INSTALL_PATH}"

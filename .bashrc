@@ -21,6 +21,10 @@ alias del.tilde='find . -type f -name "*~" -delete'
 alias del.orig='find . -type f -name "*orig" -delete'
 alias del.clean='del.pyc && del.tilde && del.orig'
 
+function du.all {
+    sudo du -d 1 | sort -n -r > filesizes.txt
+}
+
 function find.big {
     SIZE="${1:-+200M}"
     find . -size "${SIZE}" -exec ls -lh {} \;
@@ -48,22 +52,11 @@ init() {
     build_prompt
 }
 
-cd_with_prompt_change() {
-    cd $1
-    build_prompt
-}
-
 start_ssh_agent() {
     eval $(ssh-agent -s)
     ssh-add ~/.ssh/id_rsa
 }
 
 init
-alias cd="cd_with_prompt_change"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+complete -C /usr/local/bin/bit bit

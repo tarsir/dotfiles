@@ -12,13 +12,18 @@ build_prompt() {
     fi
     
     # find out what docker machine is currently in use
-    # if [ -z ${DOCKER_MACHINE_NAME+x} ]; then
-    #     echo "No docker machine in use"
-    #     DOCKER_MACHINE_PROMPT_STR=""
-    # else
-    #     DOCKER_MACHINE_PROMPT_STR="${DOCKER_MACHINE_NAME}"
-    #     echo "Currently using docker machine ${DOCKER_MACHINE_PROMPT_STR}"
-    # fi
+    if [ -z ${DOCKER_MACHINE_NAME+x} ]; then
+        echo "No docker machine in use"
+        DOCKER_MACHINE_PROMPT_STR=""
+    else
+        DOCKER_MACHINE_PROMPT_STR="${DOCKER_MACHINE_NAME}"
+        echo "Currently using docker machine ${DOCKER_MACHINE_PROMPT_STR}"
+    fi
+
+    if [ -d "./.git" ]; then
+        GIT_LOG=$(git log -n 1 --format=oneline | cut -d" " -f 2-)
+        GIT_STRING="\[$(tput setaf 7)\]$(__git_ps1) => ${GIT_LOG}"
+    fi
 
     # now build the string
     DATETIME_STRING="\[$(tput setaf 6)\]\d \[$(tput setaf 4)\]"
@@ -26,8 +31,7 @@ build_prompt() {
     CURRENT_DIR_STRING="\[$(tput setaf 1)\]\w"
     USER_STRING="\[$(tput setaf 2)\]\u"
     WAIT_WHAT_STRING="\[$(tput sgr0)\]"
-    GIT_STRING="\[$(tput setaf 7)\]$(__git_ps1)"
-    # DM_STRING="\[$(tput setaf 5)\][${DOCKER_MACHINE_PROMPT_STR}]"
+    DM_STRING="\[$(tput setaf 5)\][${DOCKER_MACHINE_PROMPT_STR}]"
     # not using this for the foreseeable future
 
     PS1="${DATETIME_STRING}\t ${VENV_STRING} ${CURRENT_DIR_STRING} ${GIT_STRING}\n    ${USER_STRING} >${WAIT_WHAT_STRING}"
