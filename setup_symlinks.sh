@@ -9,16 +9,8 @@ done
 
 echo "So now we can remove the existing links, and then make new ones!"
 for f in ${FILES[*]}; do
-    rm ~/$f
+    rm -f ~/$f
     ln -s $(pwd)/${f} $HOME/${f}
 done
-
-# ln -s $(pwd)/.dockerbash $HOME/.dockerbash
-# ln -s $(pwd)/.gitbash $HOME/.gitbash
-# ln -s $(pwd)/.promptbash $HOME/.promptbash
-# ln -s $(pwd)/.venvbash $HOME/.venvbash
-# ln -s $(pwd)/.bashrc $HOME/.bashrc
-# ln -s $(pwd)/.bashrc $HOME/.bashrc
-# ln -s $(pwd)/.vimrc $HOME/.vimrc
 
 echo "Done!"

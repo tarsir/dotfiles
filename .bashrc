@@ -40,9 +40,7 @@ function source__ {
 alias src="source__"
 
 # Path settings
-export NODE_PATH=/usr/local/lib/node_modules
 export PATH="$PATH:/usr/local/sbin"
-export PATH="$PATH:/mnt/c/Programming/Language Installs/Node4.8/bin"
 
 init() {
     build_prompt
@@ -58,12 +56,17 @@ start_ssh_agent() {
     ssh-add ~/.ssh/id_rsa
 }
 
-init
 alias cd="cd_with_prompt_change"
+if [ ! -e "$HOME/.asdf" ]; then
+	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+	cd ~/.asdf
+	git checkout "$(git describe --abbrev=0 --tags)"
+fi
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+if [ -z "$ASDF_SET" ]; then
+	. $HOME/.asdf/asdf.sh
+	. $HOME/.asdf/completions/asdf.bash
+	export ASDF_SET="true"
+fi
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
+init
