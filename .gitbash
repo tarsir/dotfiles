@@ -10,6 +10,10 @@ fi
 if [ ! -e ${GIT_REPO_DIR}/git-prompt.sh ]; then
     echo "Downloading git-prompt script"
     curl -s ${GIT_COMPLETION_URL}/git-prompt.sh > $GIT_REPO_DIR/git-prompt.sh
+
+    # go ahead and put first time git config here too
+    git config --global user.email "stephen.hara@stephenhara.com"
+    git config --global user.name "Stephen Hara"
 fi
 
 source $GIT_REPO_DIR/git-completion.bash
