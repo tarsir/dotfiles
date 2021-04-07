@@ -1,7 +1,7 @@
 # Some stuff I wanna run on all of my *nix systems
 
 echo "Installing basic packages"
-sudo apt update && sudo apt install unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev
+sudo apt update && sudo apt install unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools
 
 echo "Installing asdf"
 
@@ -23,6 +23,14 @@ for plugin in "elixir" "erlang" "postgres"; do
     asdf install "$plugin" latest
     asdf global "$plugin" $(asdf latest "$plugin")
 done
+
+if ! asdf current nodejs; then
+    echo "Installing plugin nodejs"
+    sudo apt install dirmngr gpg curl gawk
+    asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+    asdf install nodejs latest
+    asdf global nodejs $(asdf latest nodejs)
+fi
 
 echo "asdf plugins installed!"
 echo

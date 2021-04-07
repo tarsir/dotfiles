@@ -45,6 +45,7 @@ alias src="source__"
 
 # Path settings
 export NODE_PATH=/usr/local/lib/node_modules
+export PATH="$PATH:/mnt/c/Program Files/Microsoft VS Code/bin"
 export PATH="$PATH:/usr/local/sbin"
 export PATH="$PATH:/mnt/c/Programming/Language Installs/Node4.8/bin"
 
