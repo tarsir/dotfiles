@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Backing up existing files to this directory just in case"
-FILES=(".bashrc" ".dockerbash" ".gitbash" ".promptbash" ".vimrc")
+FILES=(".bashrc" ".dockerbash" ".gitbash" ".promptbash" "nvim.vim")
 mkdir -p backups
 for f in ${FILES[*]}; do
     cp $f backups/backup$f
