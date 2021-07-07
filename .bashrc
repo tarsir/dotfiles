@@ -42,6 +42,7 @@ function source__ {
 }
 
 alias src="source__"
+alias vim="nvim"
 
 # Path settings
 export PATH="$PATH:/usr/local/sbin"
