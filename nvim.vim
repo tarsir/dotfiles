@@ -4,6 +4,12 @@ set number
 set nowrap
 syntax on
 
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+	silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 """ Plugin list
 call plug#begin()
 
@@ -112,6 +118,11 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+inoremap <expr> <Tab>	pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab>	pumvisible() ? "\<C-p>" : "\<S-Tab>"
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
