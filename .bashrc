@@ -9,9 +9,6 @@ stty -ixon -ixoff
 # GIT
 source ~/.gitbash
 
-# DOCKER
-source ~/.dockerbash
-
 # Work specific bash stuff
 source ~/.workbash
 
