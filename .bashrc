@@ -1,3 +1,5 @@
+[[ $- == *i* ]] || return
+
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
@@ -10,16 +12,18 @@ source ~/.gitbash
 # DOCKER
 source ~/.dockerbash
 
-# Prompt
-source ~/.promptbash
+# Work specific bash stuff
+source ~/.workbash
 
 # MISC
-# other aliases
-alias ls="ls -G"
+alias ls="ls -G --color=auto"
 alias del.pyc='find . -type f -name "*.pyc" -delete'
 alias del.tilde='find . -type f -name "*~" -delete'
 alias del.orig='find . -type f -name "*orig" -delete'
 alias del.clean='del.pyc && del.tilde && del.orig'
+alias src="source__"
+alias nvim="nvim.appimage"
+alias vim="nvim"
 
 function du.all {
     sudo du -d 1 | sort -n -r > filesizes.txt
@@ -38,24 +42,28 @@ function f.diff {
 
 function source__ {
     SOURCE_FILE=${1:-~/.bashrc}
-    source $SOURCE_FILE
+    source "$SOURCE_FILE"
 }
 
-alias src="source__"
-alias vim="nvim"
-
-# Path settings
-export PATH="$PATH:/usr/local/sbin"
-
-init() {
-    build_prompt
+modify_paths() {
+  work_paths
+  PATH="$PATH:$(go env GOPATH)/bin"
+  PATH="$PATH:/usr/local/sbin"
+  PATH="$PATH:$HOME/downloads/AppImages"
+  PATH="$PATH:$HOME/.asdf/bin"
+  PATH="$PATH:$HOME/.bin"
+  export PATH
 }
 
-start_ssh_agent() {
-    eval $(ssh-agent -s)
-    ssh-add ~/.ssh/id_rsa
-}
+if [[ ! -v BASHRC_LOADED ]]; then
+  . $HOME/.asdf/asdf.sh
+  . $HOME/.asdf/completions/asdf.bash
 
-init
+  modify_paths
 
-complete -C /usr/local/bin/bit bit
+  echo "Initial bashrc loading complete"
+fi
+
+export BASHRC_LOADED=1
+
+eval "$(starship init bash)"
