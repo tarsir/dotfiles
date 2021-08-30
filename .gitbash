@@ -19,11 +19,6 @@ fi
 source $GIT_REPO_DIR/git-completion.bash
 source $GIT_REPO_DIR/git-prompt.sh
 
-function _gco(){
-    git checkout "$@"
-    build_prompt
-}
-
 function _gitRemoteSet(){
     git branch --set-upstream-to=origin/"$1" "$1"
 }
@@ -36,7 +31,7 @@ function g.untracked {
 
 alias git-tree="git log --graph --pretty=oneline --abbrev-commit"
 alias g.log="clear; git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
-alias g.co="_gco"
+alias g.co="git checkout"
 alias g.s="git status"
 alias g.d="git diff"
 alias g.b="git branch -v --sort=committerdate"
@@ -44,6 +39,7 @@ alias g.p="git pull -r"
 alias g.c="git commit -v"
 alias g.cv="git commit --no-verify -v"
 alias g.grs="_gitRemoteSet"
+alias g.pforce="git push --force-with-lease"
 
 # add git aliases to auto-completion
 __git_complete g.co _git_checkout
@@ -54,3 +50,10 @@ __git_complete g.p _git_pull
 
 # Use this .gitignore for system
 git config --global core.excludesfile '~/.gitignore'
+
+# ez dos2unix on all modified files
+function line_endings() {
+    for f in $(git status -s | awk '{for (i = 1; i <= NF; i++) { if ($i != "M" && $i != "A" && $i != "D") { print $i }}}')
+        do dos2unix $f
+    done
+}

@@ -4,6 +4,12 @@ set number
 set nowrap
 syntax on
 
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+	silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 """ Plugin list
 call plug#begin()
 
@@ -13,13 +19,17 @@ Plug 'elixir-lsp/coc-elixir', {'do': 'yarn install && yarn prepack'}
 Plug 'neoclide/coc-rls'
 Plug 'fannheyward/coc-rust-analyzer'
 
-
 Plug 'roxma/nvim-yarp'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " General vim plugins
+Plug 'airblade/vim-gitgutter'
+Plug 'dense-analysis/ale'
 Plug 'godlygeek/tabular'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -102,6 +112,12 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" FZF to C-p
+nmap <C-p> :FZF<CR>
+
+" Markdown EasyAlign
+au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>
+
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -112,6 +128,11 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+inoremap <expr> <Tab>	pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab>	pumvisible() ? "\<C-p>" : "\<S-Tab>"
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -243,10 +264,8 @@ map <Leader>f :source ~/.config/nvim/init.vim<CR>
 map <C-s> :w<CR>
 imap <C-s> <Esc>:w<CR>
 
+highlight ColorColumn ctermbg=magenta
+call matchadd('ColorColumn', '\%81v', 100)
 
 """ tabwidths and such
-autocmd FileType html,ruby setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType css setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType php setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType ex,exs setlocal shiftwidth=2 tabstop=2 softtabstop=2
+set shiftwidth=2
