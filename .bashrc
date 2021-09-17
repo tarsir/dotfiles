@@ -21,7 +21,7 @@ alias del.tilde='find . -type f -name "*~" -delete'
 alias del.orig='find . -type f -name "*orig" -delete'
 alias del.clean='del.pyc && del.tilde && del.orig'
 alias src="source__"
-alias nvim="nvim.appimage"
+alias nvim="nvim.appimage --appimage-extract-and-run"
 alias vim="nvim"
 
 function du.all {
