@@ -10,7 +10,9 @@ stty -ixon -ixoff
 source ~/.gitbash
 
 # Work specific bash stuff
-source ~/.workbash
+if [ -f ~/.workbash ]; then
+    source ~/.workbash
+fi
 
 # MISC
 alias ls="ls -G --color=auto"
