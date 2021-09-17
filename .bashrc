@@ -21,7 +21,13 @@ alias del.tilde='find . -type f -name "*~" -delete'
 alias del.orig='find . -type f -name "*orig" -delete'
 alias del.clean='del.pyc && del.tilde && del.orig'
 alias src="source__"
-alias nvim="nvim.appimage --appimage-extract-and-run"
+
+if env | grep "WSL_DISTRO_NAME=" > /dev/null; then
+  alias nvim="nvim.appimage --appimage-extract-and-run"
+else
+  alias nvim="nvim.appimage"
+fi
+
 alias vim="nvim"
 
 function du.all {
@@ -46,7 +52,9 @@ function source__ {
 
 modify_paths() {
   work_paths
-  PATH="$PATH:$(go env GOPATH)/bin"
+  if which go; then
+    PATH="$PATH:$(go env GOPATH)/bin"
+  fi 
   PATH="$PATH:/usr/local/sbin"
   PATH="$PATH:$HOME/downloads/AppImages"
   PATH="$PATH:$HOME/.asdf/bin"
