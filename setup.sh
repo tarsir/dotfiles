@@ -1,7 +1,9 @@
 # Some stuff I wanna run on all of my *nix systems
 
+mkdir -p ~/downloads/AppImages
+
 echo "Installing basic packages"
-sudo apt update && sudo apt install unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools
+sudo apt update && sudo apt install unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools libfuse2
 
 echo "Installing asdf"
 
@@ -33,6 +35,18 @@ if ! asdf current nodejs; then
 fi
 
 echo "asdf plugins installed!"
+echo
+
+echo "Installing Starship prompt"
+echo
+
+sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+
+echo "Installing nvim"
+NVIM_FILENAME="nvim.appimage"
+curl -L "https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage" -o ~/downloads/AppImages/"${NVIM_FILENAME}"
+chmod u+x "$HOME/downloads/AppImages/${NVIM_FILENAME}"
+
 echo
 
 if [ -e "~/.rustup" ]; then
