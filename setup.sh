@@ -3,11 +3,11 @@
 mkdir -p ~/downloads/AppImages
 
 echo "Installing basic packages"
-sudo apt update && sudo apt install unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools libfuse2
+sudo apt update && sudo apt install curl unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools libfuse2
 
 echo "Installing asdf"
 
-if [ -e "~/.asdf" ]; then
+if [ ! -e "~/.asdf" ]; then
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf
     cd ~/.asdf
     git checkout "$(git describe --abbrev=0 --tags)"
@@ -28,7 +28,7 @@ done
 
 if ! asdf current nodejs; then
     echo "Installing plugin nodejs"
-    sudo apt install dirmngr gpg curl gawk
+    sudo apt install dirmngr gpg gawk
     asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
     asdf install nodejs latest
     asdf global nodejs $(asdf latest nodejs)
