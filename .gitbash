@@ -3,11 +3,11 @@ GIT_COMPLETION_URL="https://raw.githubusercontent.com/git/git/master/contrib/com
 # make sure the two files I use exist
 
 mkdir -p ${GIT_REPO_DIR}
-if [ ! -e ${GIT_REPO_DIR}/git-completion.bash ]; then
+if [ ! -s ${GIT_REPO_DIR}/git-completion.bash ]; then
     echo "Downloading git-completion script"
     curl -s ${GIT_COMPLETION_URL}/git-completion.bash > $GIT_REPO_DIR/git-completion.bash
 fi
-if [ ! -e ${GIT_REPO_DIR}/git-prompt.sh ]; then
+if [ ! -s ${GIT_REPO_DIR}/git-prompt.sh ]; then
     echo "Downloading git-prompt script"
     curl -s ${GIT_COMPLETION_URL}/git-prompt.sh > $GIT_REPO_DIR/git-prompt.sh
 

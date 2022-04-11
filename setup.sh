@@ -3,7 +3,9 @@
 mkdir -p ~/downloads/AppImages
 
 echo "Installing basic packages"
-sudo apt update && sudo apt install curl unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools libfuse2
+if [ ! curl --help ]; then
+    sudo apt update && sudo apt install curl unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools libfuse2 setuptools
+fi
 
 echo "Installing asdf"
 
@@ -19,7 +21,7 @@ fi
 echo "Installing asdf plugins"
 echo
 
-for plugin in "elixir" "erlang" "postgres"; do
+for plugin in "elixir" "erlang" "postgres" "python"; do
     echo "Installing plugin $plugin"
     asdf plugin add "$plugin"
     asdf install "$plugin" latest
@@ -42,14 +44,17 @@ echo
 
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 
-echo "Installing nvim"
-NVIM_FILENAME="nvim.appimage"
-curl -L "https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage" -o ~/downloads/AppImages/"${NVIM_FILENAME}"
-chmod u+x "$HOME/downloads/AppImages/${NVIM_FILENAME}"
+if [ ! -s "$NVIM_LOCATION" ]; then
+    echo "Installing nvim"
+    NVIM_FILENAME="nvim.appimage"
+    NVIM_LOCATION="~/downloads/AppImages/${NVIM_FILENAME}"
+    curl -L "https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage" -o ${NVIM_LOCATION}
+    chmod u+x "$HOME/downloads/AppImages/${NVIM_FILENAME}"
+fi
 
 echo
 
-if [ -e "~/.rustup" ]; then
+if [ ! -e "~/.rustup" ]; then
     echo "Installing rustup"
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi

@@ -21,6 +21,7 @@ echo "Now copying nvim config"
 
 NVIM_CONFIG="nvim.vim"
 NVIM_TARGET_PATH="$HOME/.config/nvim/init.vim"
+mkdir -p $(dirname $NVIM_TARGET_PATH)
 cp "${NVIM_CONFIG}" "backups/backup${NVIM_CONFIG}-${DATE}"
 rm -f "${NVIM_TARGET_PATH}"
 ln -s "$(pwd)/${NVIM_CONFIG}" "${NVIM_TARGET_PATH}"
