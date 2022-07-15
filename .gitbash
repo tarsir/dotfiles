@@ -50,6 +50,7 @@ __git_complete g.p _git_pull
 
 # Use this .gitignore for system
 git config --global core.excludesfile '~/.gitignore'
+git config --global core.editor "nvim"
 
 # ez dos2unix on all modified files
 function line_endings() {
