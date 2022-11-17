@@ -23,9 +23,11 @@ alias del.clean='del.pyc && del.tilde && del.orig'
 alias src="source__"
 
 if env | grep "WSL_DISTRO_NAME=" > /dev/null; then
-  alias nvim="nvim.appimage --appimage-extract-and-run"
+  unalias nvim
 else
   alias nvim="nvim.appimage"
+  # alias nvim="nvim.appimage --appimage-extract-and-run"
+  # sometimes it needs the extra extract + run flag for some distros
 fi
 
 alias vim="nvim"

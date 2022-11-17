@@ -1,9 +1,7 @@
 # Some stuff I wanna run on all of my *nix systems
 
-mkdir -p ~/downloads/AppImages
-
 echo "Installing basic packages"
-if ! curl --help ; then
+if ! make ; then
     sudo apt update && sudo apt install curl unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools libfuse2 python-setuptools
 fi
 
@@ -21,7 +19,7 @@ fi
 echo "Installing asdf plugins"
 echo
 
-for plugin in "elixir" "erlang" "postgres" "python" "neovim"; do
+for plugin in "elixir" "erlang" "postgres" "neovim"; do
   if ! asdf current $plugin; then
     echo "Adding plugin $plugin"
     asdf plugin add "$plugin"
@@ -54,6 +52,7 @@ NVIM_LOCATION="~/downloads/AppImages/${NVIM_FILENAME}"
 # does not work on WSL, use asdf instead
 if [ ! -s "$NVIM_LOCATION" ]; then
   if ! uname -r | grep WSL2; then
+    mkdir -p ~/downloads/AppImages
     pushd .
     echo "Installing nvim"
     NVIM_FILENAME="nvim.appimage"
