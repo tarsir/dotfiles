@@ -20,7 +20,6 @@ Plug 'neoclide/coc-rls'
 Plug 'fannheyward/coc-rust-analyzer'
 
 Plug 'roxma/nvim-yarp'
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " General vim plugins
