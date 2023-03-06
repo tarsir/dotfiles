@@ -10,10 +10,15 @@ done
 
 echo "So now we can remove the existing links, and then make new ones!"
 for f in ${FILES[*]}; do
-    rm "${HOME}/$f"
+    rm -f "${HOME}/$f"
     echo "Linking $f to ~/$f"
     ln -s "$(pwd)/${f}" "$HOME/${f}"
 done
+
+ssh_config_path="${HOME}/.ssh/config"
+rm -f "${ssh_config_path}"
+echo "Copying ./ssh_config to ${ssh_config_path}"
+cp "./ssh_config" "${ssh_config_path}"
 
 # Do separately for nvim
 

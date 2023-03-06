@@ -1,69 +1,92 @@
 # Some stuff I wanna run on all of my *nix systems
 
-echo "Installing basic packages"
-if ! make ; then
-    sudo apt update && sudo apt install curl unzip make \
-      libssl-dev libncurses5-dev gcc automake autoconf \
-      libreadline-dev zlib1g-dev g++ silversearcher-ag \
-      inotify-tools libfuse2 python-setuptools uuid-dev
-fi
+MANJARO_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
+	"autoconf" "readline" "zlib" "inotify-tools" "fuse2"
+	"python-setuptools" "base-devel")
+APT_PACKAGES=("curl" "unzip" "make"
+      "libssl-dev" "libncurses5-dev" "gcc" "automake" "autoconf"
+      "libreadline-dev" "zlib1g-dev" "g++" "silversearcher-ag"
+      "inotify-tools" "libfuse2" "python-setuptools" "uuid-dev")
 
-echo "Installing asdf"
+system_packages() {
+    if ! make ; then
+      echo "Installing basic packages"
+      if apt --version &> /dev/null; then
+        sudo apt update && sudo apt install ${APT_PACKAGES[@]}
+      elif pacman --version &> /dev/null; then
+        sudo pacman -Syu && sudo pacman -S ${MANJARO_PACKAGES[@]}
+      fi
+    fi
+}
 
-if [ ! -e "~/.asdf" ]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-    cd ~/.asdf
-    git checkout "$(git describe --abbrev=0 --tags)"
-fi
+asdf_plugins_install() {
 
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
+    if [ ! -e "~/.asdf" ]; then
+        echo "Installing asdf"
+        git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+        cd ~/.asdf
+        git checkout "$(git describe --abbrev=0 --tags)"
+    fi
 
-echo "Installing asdf plugins"
-echo
+    . "$HOME/.asdf/asdf.sh"
+    . "$HOME/.asdf/completions/asdf.bash"
 
-for plugin in "elixir" "erlang" "postgres"; do
-  if ! asdf current $plugin; then
-    echo "Adding plugin $plugin"
-    asdf plugin add "$plugin"
-    asdf install "$plugin" latest
-    asdf global "$plugin" $(asdf latest "$plugin")
-  else
-    echo "Skipping plugin $plugin"
-  fi
-done
+    echo "Installing asdf plugins"
+    echo
 
-if ! asdf current nodejs; then
-    echo "Installing plugin nodejs"
-    sudo apt install dirmngr gpg gawk
-    asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-    asdf install nodejs latest
-    asdf global nodejs $(asdf latest nodejs)
-fi
+    for plugin in "elixir" "erlang" "postgres"; do
+      if ! asdf current $plugin; then
+        echo "Adding plugin $plugin"
+        asdf plugin add "$plugin"
+        asdf install "$plugin" latest
+        asdf global "$plugin" $(asdf latest "$plugin")
+      else
+        echo "Skipping installed plugin $plugin"
+      fi
+    done
 
-echo "asdf plugins installed!"
-echo
+    if ! asdf current nodejs; then
+        echo "Installing plugin nodejs"
+        asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+        asdf install nodejs latest
+        asdf global nodejs $(asdf latest nodejs)
+    fi
 
-echo "Installing Starship prompt"
-echo
+    echo "asdf plugins installed!"
+}
 
-sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+starship_prompt() {
+    if ! starship &> /dev/null; then
+        echo "Installing Starship prompt"
 
-echo
+        sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+    fi
+}
 
-if [ ! -d "$HOME/.rustup/" ]; then
-    echo "Installing rustup"
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-fi
+rust_and_utils() {
+    if [ ! -d "$HOME/.rustup/" ]; then
+        echo "Installing rustup"
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        source "$HOME/.cargo/env"
+    fi
 
-echo "Installing some cargo tools"
+    export PATH="$PATH:$HOME/.cargo/bin"
 
-cargo install exa
-cargo install bob-nvim
+    echo "Installing some cargo tools"
 
-NVIM_VERSION="stable"
-echo "Installing nvim version $NVIM_VERSION"
-bob install "${NVIM_VERSION}"
-bob use "${NVIM_VERSION}"
+    cargo install exa
+    cargo install bob-nvim
+    cargo install erdtree
+
+    NVIM_VERSION="stable"
+    echo "Installing nvim version $NVIM_VERSION"
+    bob install "${NVIM_VERSION}"
+    bob use "${NVIM_VERSION}"
+}
+
+# system_packages
+asdf_plugins_install
+starship_prompt
+rust_and_utils
 
 echo "Done!"
