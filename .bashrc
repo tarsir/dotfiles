@@ -15,21 +15,12 @@ if [ -f ~/.workbash ]; then
 fi
 
 # MISC
-alias ls="ls -G --color=auto"
+alias ls="exa -G"
 alias del.pyc='find . -type f -name "*.pyc" -delete'
 alias del.tilde='find . -type f -name "*~" -delete'
 alias del.orig='find . -type f -name "*orig" -delete'
 alias del.clean='del.pyc && del.tilde && del.orig'
 alias src="source__"
-
-if env | grep "WSL_DISTRO_NAME=" > /dev/null; then
-  unalias nvim
-else
-  alias nvim="nvim.appimage"
-  # alias nvim="nvim.appimage --appimage-extract-and-run"
-  # sometimes it needs the extra extract + run flag for some distros
-fi
-
 alias vim="nvim"
 
 function du.all {
@@ -54,15 +45,22 @@ function source__ {
 
 modify_paths() {
   work_paths
-  if which go; then
-    PATH="$PATH:$(go env GOPATH)/bin"
-  fi 
+  zig_paths
   PATH="$PATH:/usr/local/sbin"
   PATH="$PATH:$HOME/downloads/AppImages"
   PATH="$PATH:$HOME/.asdf/bin"
   PATH="$PATH:$HOME/.bin"
+  PATH="$PATH:/home/stephen/.local/share/bob/nvim-bin"
   export PATH
 }
+
+zig_paths() {
+  PATH="$PATH:/home/stephen/Downloads/zig/build/stage3/bin"
+  PATH="$PATH:/home/stephen/Downloads/zls/zig-out/bin"
+  export PATH
+}
+
+export LLVM_INSTALL_PATH="/home/stephen/local/llvm15-release"
 
 if [[ ! -v BASHRC_LOADED ]]; then
   . $HOME/.asdf/asdf.sh

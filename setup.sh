@@ -2,7 +2,10 @@
 
 echo "Installing basic packages"
 if ! make ; then
-    sudo apt update && sudo apt install curl unzip make libssl-dev libncurses5-dev gcc automake autoconf libreadline-dev zlib1g-dev g++ silversearcher-ag inotify-tools libfuse2 python-setuptools
+    sudo apt update && sudo apt install curl unzip make \
+      libssl-dev libncurses5-dev gcc automake autoconf \
+      libreadline-dev zlib1g-dev g++ silversearcher-ag \
+      inotify-tools libfuse2 python-setuptools uuid-dev
 fi
 
 echo "Installing asdf"
@@ -19,7 +22,7 @@ fi
 echo "Installing asdf plugins"
 echo
 
-for plugin in "elixir" "erlang" "postgres" "neovim"; do
+for plugin in "elixir" "erlang" "postgres"; do
   if ! asdf current $plugin; then
     echo "Adding plugin $plugin"
     asdf plugin add "$plugin"
@@ -46,31 +49,21 @@ echo
 
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
 
-NVIM_FILENAME="nvim.appimage"
-NVIM_LOCATION="~/downloads/AppImages/${NVIM_FILENAME}"
-
-# does not work on WSL, use asdf instead
-if [ ! -s "$NVIM_LOCATION" ]; then
-  if ! uname -r | grep WSL2; then
-    mkdir -p ~/downloads/AppImages
-    pushd .
-    echo "Installing nvim"
-    NVIM_FILENAME="nvim.appimage"
-    NVIM_LOCATION="$HOME/downloads/AppImages/${NVIM_FILENAME}"
-    curl -L "https://github.com/neovim/neovim/releases/latest/download/nvim.appimage" -o ${NVIM_LOCATION}
-    chmod u+x "$HOME/downloads/AppImages/${NVIM_FILENAME}"
-    cd $(dirname "${NVIM_LOCATION}")
-    ./${NVIM_FILENAME} --appimage-extract
-    sudo ln -s $(pwd)/squashfs-root/AppRun /usr/bin/nvim
-    popd
-  fi
-fi
-
 echo
 
 if [ ! -d "$HOME/.rustup/" ]; then
     echo "Installing rustup"
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
+
+echo "Installing some cargo tools"
+
+cargo install exa
+cargo install bob-nvim
+
+NVIM_VERSION="stable"
+echo "Installing nvim version $NVIM_VERSION"
+bob install "${NVIM_VERSION}"
+bob use "${NVIM_VERSION}"
 
 echo "Done!"
