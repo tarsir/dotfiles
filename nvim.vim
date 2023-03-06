@@ -51,6 +51,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'elixir-editors/vim-elixir'
 Plug 'rust-lang/rust.vim'
 Plug 'plasticboy/vim-markdown'
+Plug 'ziglang/zig.vim'
 
 call plug#end()
 
