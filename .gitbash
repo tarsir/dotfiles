@@ -48,9 +48,11 @@ __git_complete g.d _git_diff
 __git_complete g.b _git_branch
 __git_complete g.p _git_pull
 
+### Global config
 # Use this .gitignore for system
 git config --global core.excludesfile '~/.gitignore'
 git config --global core.editor "nvim"
+git config --global push.autoSetupRemote "true"
 
 # ez dos2unix on all modified files
 function line_endings() {
