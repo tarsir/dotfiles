@@ -242,7 +242,7 @@ map <leader>gs :Git status<cr>
 map <leader>gc :Git commit -v<cr>
 map <leader>gcv :Git commit --no-verify -v<cr>
 map <leader>gt :Git commit -v -q %:p<cr>
-map <leader>gl :Git log -n 5<cr>
+map <leader>go :Git checkout 
 map <leader>gp :Git push<cr>
 nnoremap <leader>ga :Git add %:p<CR><CR>
 nnoremap <leader>grm :Git rm %:p<CR><CR>
