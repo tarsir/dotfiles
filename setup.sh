@@ -1,3 +1,4 @@
+#!/bin/bash
 # Some stuff I wanna run on all of my *nix systems
 
 MANJARO_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
@@ -5,18 +6,26 @@ MANJARO_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
 	"python-setuptools" "base-devel")
 APT_PACKAGES=("curl" "unzip" "make"
       "libssl-dev" "libncurses5-dev" "gcc" "automake" "autoconf"
-      "libreadline-dev" "zlib1g-dev" "g++" "silversearcher-ag"
-      "inotify-tools" "libfuse2" "python-setuptools" "uuid-dev")
+      "libreadline-dev" "zlib1g-dev" "g++" "inotify-tools" "libfuse2"
+      "python-setuptools" "uuid-dev")
 
 system_packages() {
-    if ! make ; then
-      echo "Installing basic packages"
-      if apt --version &> /dev/null; then
-        sudo apt update && sudo apt install ${APT_PACKAGES[@]}
-      elif pacman --version &> /dev/null; then
-        sudo pacman -Syu && sudo pacman -S ${MANJARO_PACKAGES[@]}
+  install_queue=()
+  if apt --version &> /dev/null; then
+    for p in ${APT_PACKAGES[*]}; do
+      if apt show $p &> /dev/null; then
+	install_queue+=($p)
       fi
-    fi
+    done
+    sudo apt update && sudo apt install ${install_queue[@]}
+  elif pacman --version &> /dev/null; then
+    for p in ${APT_PACKAGES[*]}; do
+      if pacman -Q $p &> /dev/null; then
+	install_queue+=($p)
+      fi
+    done
+    sudo pacman -Syu && sudo pacman -S ${install_queue[@]}
+  fi
 }
 
 asdf_plugins_install() {
@@ -77,6 +86,7 @@ rust_and_utils() {
     cargo install exa
     cargo install bob-nvim
     cargo install erdtree
+    cargo install ripgrep
 
     NVIM_VERSION="stable"
     echo "Installing nvim version $NVIM_VERSION"
@@ -84,7 +94,7 @@ rust_and_utils() {
     bob use "${NVIM_VERSION}"
 }
 
-# system_packages
+system_packages
 asdf_plugins_install
 starship_prompt
 rust_and_utils
