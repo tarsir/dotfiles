@@ -43,21 +43,30 @@ function source__ {
     source "$SOURCE_FILE"
 }
 
-modify_paths() {
-  work_paths
-  zig_paths
-  PATH="$PATH:/usr/local/sbin"
-  PATH="$PATH:$HOME/downloads/AppImages"
-  PATH="$PATH:$HOME/.asdf/bin"
-  PATH="$PATH:$HOME/.bin"
-  PATH="$PATH:/home/stephen/.local/share/bob/nvim-bin"
+path_add() {
+  new_path_entry="$1"
+  if [ -z "$new_path_entry" ]; then
+    case ":$PATH:" in
+	*":${new_path_entry}:"*) :;;
+	*) PATH="${PATH}:${new_path_entry}"
+    esac
+  fi
   export PATH
 }
 
+modify_paths() {
+  work_paths
+  zig_paths
+  path_add "/usr/local/sbin"
+  path_add "$HOME/downloads/AppImages"
+  path_add "$HOME/.asdf/bin"
+  path_add "$HOME/.bin"
+  path_add "$HOME/.local/share/bob/nvim-bin"
+}
+
 zig_paths() {
-  PATH="$PATH:/home/stephen/Downloads/zig/build/stage3/bin"
-  PATH="$PATH:/home/stephen/Downloads/zls/zig-out/bin"
-  export PATH
+  path_add "$HOME/Downloads/zig/build/stage3/bin"
+  path_add "$HOME/Downloads/zls/zig-out/bin"
 }
 
 export LLVM_INSTALL_PATH="/home/stephen/local/llvm15-release"
