@@ -237,15 +237,12 @@ colorscheme gruvbox
 
 """ fugitive mappings with leader
 " fugitive leader mappings
-map <leader>gd :Gdiff<cr>
-map <leader>gs :Gstatus<cr>
-map <leader>gc :Gcommit -v<cr>
-map <leader>gcv :Gcommit --no-verify -v<cr>
-map <leader>gt :Gcommit -v -q %:p<cr>
-map <leader>go :Git checkout -- %:p
+map <leader>gd :Git diff<cr>
+map <leader>gs :Git status<cr>
+map <leader>gc :Git commit -v<cr>
+map <leader>gcv :Git commit --no-verify -v<cr>
+map <leader>gt :Git commit -v -q %:p<cr>
 map <leader>gl :Git log -n 5<cr>
-map <leader>gw :Gwrite<cr>
-map <Leader>gg :Ggrep<space>
 map <leader>gp :Git push<cr>
 nnoremap <leader>ga :Git add %:p<CR><CR>
 nnoremap <leader>grm :Git rm %:p<CR><CR>
