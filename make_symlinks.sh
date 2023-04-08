@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Backing up existing files to this directory just in case"
-FILES=(".bashrc" ".gitbash" ".tmux.conf" ".tmux.conf.local")
+FILES=(".bashrc" ".gitbash")
 DATE=$(date +%Y%m%d)
 mkdir -p backups
 for f in ${FILES[*]}; do
