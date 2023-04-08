@@ -45,13 +45,12 @@ function source__ {
 
 path_add() {
   new_path_entry="$1"
-  if [ -z "$new_path_entry" ]; then
+  if [ -n "$new_path_entry" ]; then
     case ":$PATH:" in
-	*":${new_path_entry}:"*) :;;
-	*) PATH="${PATH}:${new_path_entry}"
+	*:"${new_path_entry}":*) ;;
+	*) export PATH="${PATH}:${new_path_entry}";;
     esac
   fi
-  export PATH
 }
 
 modify_paths() {
