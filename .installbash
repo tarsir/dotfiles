@@ -1,6 +1,0 @@
-#!/bin/bash
-
-rustc --version > /dev/null
-if [[ "$?" != 0 ]]; then
-    curl -sSf https://static.rust-lang.org/rustup.sh | sh
-fi
