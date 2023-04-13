@@ -87,6 +87,8 @@ rust_and_utils() {
     cargo install bob-nvim
     cargo install erdtree
     cargo install ripgrep
+    cargo install gitui
+    cargo install bottom
 
     NVIM_VERSION="stable"
     echo "Installing nvim version $NVIM_VERSION"

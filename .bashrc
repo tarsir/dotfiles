@@ -81,5 +81,7 @@ fi
 
 export BASHRC_LOADED=1
 
+export FZF_DEFAULT_COMMAND='rg --files'
+
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
