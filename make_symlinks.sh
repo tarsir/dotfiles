@@ -36,7 +36,7 @@ mkdir -p $(dirname $NVIM_TARGET_PATH)
 mkdir -p "${NVIM_BASE_DIR}/lua"
 cp "${NVIM_BASE_DIR}/init.lua" "backups/backup${NVIM_CONFIG}-${DATE}"
 cp "${NVIM_BASE_DIR}/lua/plugins.lua" "backups/backup${NVIM_PLUGINS_CONFIG}-${DATE}"
-rm -f "${NVIM_BASE_DIR}/init.lua" "${NVIM_BASE_DIR}/lua/plugins.lua"
+rm -f "${NVIM_BASE_DIR}/init.vim" "${NVIM_BASE_DIR}/init.lua" "${NVIM_BASE_DIR}/lua/plugins.lua"
 ln -s "$(pwd)/${NVIM_CONFIG}" "${NVIM_BASE_DIR}/init.lua"
 ln -s "$(pwd)/${NVIM_PLUGINS_CONFIG}" "${NVIM_BASE_DIR}/lua/plugins.lua"
 
