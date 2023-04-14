@@ -25,11 +25,12 @@ system_packages() {
       fi
     done
     sudo pacman -Syu && sudo pacman -S ${install_queue[@]}
+  else
+    echo "I don't support your system's package manager yet. Skipping system packages."
   fi
 }
 
 asdf_plugins_install() {
-
     if [ ! -e "~/.asdf" ]; then
         echo "Installing asdf"
         git clone https://github.com/asdf-vm/asdf.git ~/.asdf
@@ -65,11 +66,13 @@ asdf_plugins_install() {
 }
 
 starship_prompt() {
-    if ! starship &> /dev/null; then
-        echo "Installing Starship prompt"
+  if ! starship help &> /dev/null; then
+    echo "Installing Starship prompt"
 
-        sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-    fi
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+  else
+    echo "Starship already installed! Skipping"
+  fi
 }
 
 rust_and_utils() {
@@ -83,17 +86,26 @@ rust_and_utils() {
 
     echo "Installing some cargo tools"
 
-    cargo install exa
-    cargo install bob-nvim
-    cargo install erdtree
-    cargo install ripgrep
-    cargo install gitui
-    cargo install bottom
+    cargo_packages_base=("exa" "bob-nvim" "erdtree" "ripgrep" "gitui" "bottom" "zellij")
+    cargo_packages=()
+    for pkg in ${cargo_packages_base[@]}; do
+      if ! cargo install --list | grep $pkg &> /dev/null; then
+	cargo_packages+=($pkg)
+      fi
+    done
+
+    if [ "${#cargo_packages[@]}" -eq 0 ]; then
+      echo "All Cargo packages already installed!"
+    else
+      cargo install ${cargo_packages[*]}
+    fi
 
     NVIM_VERSION="stable"
-    echo "Installing nvim version $NVIM_VERSION"
-    bob install "${NVIM_VERSION}"
-    bob use "${NVIM_VERSION}"
+    if ! bob ls | grep ${NVIM_VERSION} &> /dev/null; then
+      echo "Installing nvim version $NVIM_VERSION via bob-nvim"
+      bob install "${NVIM_VERSION}"
+      bob use "${NVIM_VERSION}"
+    fi
 }
 
 system_packages
