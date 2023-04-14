@@ -20,24 +20,30 @@ rm -f "${ssh_config_path}"
 echo "Copying ./ssh_config to ${ssh_config_path}"
 cp "./ssh_config" "${ssh_config_path}"
 
-rm -f "$HOME/.config/gitui/key_bindings.ron" "$HOME/.config/nvim/coc-settings.json"
+rm -f "$HOME/.config/gitui/key_bindings.ron"
 cp "./key_bindings.ron" "$HOME/.config/gitui/key_bindings.ron"
-cp "./coc-settings.json" "$HOME/.config/nvim/coc-settings.json"
 
 # Do separately for nvim
 
 echo "Now copying nvim config"
 
 NVIM_CONFIG="nvim.lua"
-NVIM_PLUGINS_CONFIG="nvim_plugins.lua"
+NVIM_PLUGINS_PATH="lua/plugins"
 NVIM_BASE_DIR="$HOME/.config/nvim/"
 NVIM_TARGET_PATH="${NVIM_BASE_DIR}/${NVIM_CONFIG}"
-mkdir -p $(dirname $NVIM_TARGET_PATH)
-mkdir -p "${NVIM_BASE_DIR}/lua"
 cp "${NVIM_BASE_DIR}/init.lua" "backups/backup${NVIM_CONFIG}-${DATE}"
-cp "${NVIM_BASE_DIR}/lua/plugins.lua" "backups/backup${NVIM_PLUGINS_CONFIG}-${DATE}"
-rm -f "${NVIM_BASE_DIR}/init.vim" "${NVIM_BASE_DIR}/init.lua" "${NVIM_BASE_DIR}/lua/plugins.lua"
+rm -rf "${NVIM_BASE_DIR}/init.lua" "${NVIM_BASE_DIR}/lua"
+et "${NVIM_BASE_DIR}"
+mkdir -p $(dirname $NVIM_TARGET_PATH)
+mkdir -p "${NVIM_BASE_DIR}/${NVIM_PLUGINS_PATH}"
 ln -s "$(pwd)/${NVIM_CONFIG}" "${NVIM_BASE_DIR}/init.lua"
-ln -s "$(pwd)/${NVIM_PLUGINS_CONFIG}" "${NVIM_BASE_DIR}/lua/plugins.lua"
+for f in $(rg --files nvim_configs); do
+  trimmed=$(printf '%s\n' $f | cut -f2- -d'/')
+  final_path="${NVIM_BASE_DIR}/lua/${trimmed}"
+  mkdir -p $(dirname $final_path)
+  cp "$f" "$final_path"
+done
+
+et "${NVIM_BASE_DIR}"
 
 echo "Done!"
