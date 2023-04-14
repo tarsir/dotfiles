@@ -62,6 +62,11 @@ asdf_plugins_install() {
         asdf global nodejs $(asdf latest nodejs)
     fi
 
+    if ! which yarn &> /dev/null; then
+      echo "Installing yarn"
+      npm install -g yarn
+    fi
+
     echo "asdf plugins installed!"
 }
 
