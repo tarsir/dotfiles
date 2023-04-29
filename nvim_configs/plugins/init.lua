@@ -2,7 +2,7 @@ require("lazy").setup({
   { import = "lsp",},
   { import = "ui"},
   { import = "telescope"},
-  {import = "treesitter"},
+  { import = "treesitter"},
 })
 
 return {
@@ -91,12 +91,34 @@ return {
   },
 
   -- status line
-  { 'freddiehaddad/feline.nvim' },
+  {
+    'freddiehaddad/feline.nvim',
+    event = 'VimEnter',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons'
+    },
+    config = function (_, opts)
+      require('plugins.config.feline')
+    end
+  },
   -- tabline
   {
     'romgrk/barbar.nvim',
     dependencies = 'nvim-tree/nvim-web-devicons',
     init = function() vim.g.barbar_auto_setup = false end,
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
+    config = function(_, opts)
+      local mappings = {
+	n = {
+	  ["<leader>bp"] = { "<Cmd>BufferPick<CR>", "buffer pick"},
+	  ["<leader>bc"] = { "<Cmd>BufferClose<CR>", "buffer close"},
+	  ["<leader>bdd"] = { "<Cmd>BufferCloseAllButCurrentOrPinned<CR>", "clear other buffers"},
+	  ["<C-a>"] = { "<Cmd>BufferPrevious<CR>", "move to previous"},
+	  ["<C-d>"] = { "<Cmd>BufferNext<CR>", "move to next"},
+	}
+      }
+
+      require("utils").set_mapping(mappings)
+    end
   },
 }
