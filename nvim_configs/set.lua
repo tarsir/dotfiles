@@ -4,24 +4,24 @@ vim.opt.number = true
 vim.wo.wrap = false
 vim.opt.syntax = "ON"
 vim.o.termguicolors = true
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
 vim.o.foldenable = false
 
 vim.cmd.highlight('ColorColumn ctermbg=magenta')
 vim.opt.colorcolumn = { '+1', 100 }
 
 -- tabwidths and such
-vim.opt.shiftwidth=2
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
+vim.opt.scrolloff = 8
 
--- coc stuff
-vim.opt.shortmess = vim.opt.shortmess + 'c'
-vim.opt.hidden = true
-vim.opt.cmdheight = 2
-vim.opt.updatetime = 300
+vim.opt.updatetime = 50
 -- Always show the signcolumn, otherwise it would shift the text each time
 -- diagnostics appear/become resolved.
-vim.opt.signcolumn='yes'
+vim.opt.signcolumn = 'yes'
 
 -- fix some elixir file associations
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -29,6 +29,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "setl filetype=elixir"
 })
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.eex", "*.heex", "*.leex", "*.sface", "*.lexs"},
+  pattern = { "*.eex", "*.heex", "*.leex", "*.sface", "*.lexs" },
   command = "setl filetype=eelixir"
 })
