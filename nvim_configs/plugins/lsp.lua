@@ -9,16 +9,31 @@ return {
     },
     config = function(_, opts)
       require("mason").setup(opts)
-      require("mason-lspconfig").setup()
+      require("mason-lspconfig").setup({
+	  ensure_installed = { "lua_ls", "rust_analyzer", "elixirls"},
+	  automatic_installation = { exclude = { "zls"} }
+	})
       require("mason-lspconfig").setup_handlers {
 	function (server_name)
 	  require("lspconfig")[server_name].setup {}
-	end
+	end,
       }
+      local lspconfig = require("lspconfig")
+      lspconfig.zls.setup({
+	cmd = {"zls"},
+	filetypes = { "zig", "zir", "zon" },
+	root_dir = lspconfig.util.root_pattern("zls.json", ".git"),
+	single_file_support = true
+      })
 
     end,
   },
-  "b0o/SchemaStore.nvim",
+  {
+    "b0o/SchemaStore.nvim"
+  },
+  {
+    "ziglang/zig.vim"
+  },
   {
     "folke/neodev.nvim",
   },
@@ -28,9 +43,9 @@ return {
       {
         "williamboman/mason-lspconfig.nvim",
         cmd = { "LspInstall", "LspUninstall" },
-	opts = {
-	  ensure_installed = { "lua_ls", "rust_analyzer", "elixirls"}
-	}
+	config = function(_, opts)
+
+	end
       },
     },
   },

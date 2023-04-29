@@ -61,6 +61,7 @@ modify_paths() {
   path_add "$HOME/.asdf/bin"
   path_add "$HOME/.bin"
   path_add "$HOME/.local/share/bob/nvim-bin"
+  path_add "$LLVM_INSTALL_PATH/bin"
 }
 
 zig_paths() {
@@ -68,7 +69,7 @@ zig_paths() {
   path_add "$HOME/Downloads/zls/zig-out/bin"
 }
 
-export LLVM_INSTALL_PATH="/home/stephen/local/llvm15-release"
+export LLVM_INSTALL_PATH="/home/stephen/local/llvm16-release"
 
 if [[ ! -v BASHRC_LOADED ]]; then
   . $HOME/.asdf/asdf.sh

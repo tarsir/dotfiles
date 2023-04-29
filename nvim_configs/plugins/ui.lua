@@ -19,7 +19,11 @@ return {
   },
   {
     "rcarriga/nvim-notify",
+    event = "VimEnter",
     opts = { on_open = function(win) vim.api.nvim_win_set_config(win, { zindex = 1000 }) end },
+    config = function(_, opts)
+      require("notify").setup(opts)
+    end
   },
   {
     "stevearc/dressing.nvim",
