@@ -39,7 +39,7 @@ alias g.p="git pull -r"
 alias g.c="git commit -v"
 alias g.cv="git commit --no-verify -v"
 alias g.grs="_gitRemoteSet"
-alias g.pforce="git push --force-with-lease"
+alias g.pf="git push --force-with-lease"
 
 # add git aliases to auto-completion
 __git_complete g.co _git_checkout
