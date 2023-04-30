@@ -10,24 +10,33 @@ return {
     config = function(_, opts)
       require("mason").setup(opts)
       require("mason-lspconfig").setup({
-	  ensure_installed = { "lua_ls", "rust_analyzer", "elixirls"},
-	  automatic_installation = { exclude = { "zls"} }
-	})
+        ensure_installed = { "lua_ls", "rust_analyzer", "elixirls"},
+        automatic_installation = { exclude = { "zls"} }
+      })
       require("mason-lspconfig").setup_handlers {
-	function (server_name)
-	  require("lspconfig")[server_name].setup {}
-	end,
+        function (server_name)
+          require("lspconfig")[server_name].setup {}
+        end,
+        ["rust_analyzer"] = function ()
+          require("rust-tools").setup {}
+        end
       }
       local lspconfig = require("lspconfig")
       lspconfig.zls.setup({
-	cmd = {"zls"},
-	filetypes = { "zig", "zir", "zon" },
-	root_dir = lspconfig.util.root_pattern("zls.json", ".git"),
-	single_file_support = true
+        cmd = {"zls"},
+        filetypes = { "zig", "zir", "zon" },
+        root_dir = lspconfig.util.root_pattern("zls.json", ".git"),
+        single_file_support = true
       })
 
     end,
   },
+  { 'simrat39/rust-tools.nvim'},
+
+  -- Debugging
+  { 'nvim-lua/plenary.nvim' },
+  { 'mfussenegger/nvim-dap'},
+
   {
     "b0o/SchemaStore.nvim"
   },
@@ -36,6 +45,9 @@ return {
   },
   {
     "folke/neodev.nvim",
+  },
+  {
+    "nvim-lua/lsp-status.nvim",
   },
   {
     "neovim/nvim-lspconfig",

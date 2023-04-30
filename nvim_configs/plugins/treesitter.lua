@@ -5,14 +5,14 @@ return {
     build = ":TSUpdate",
     config = function(_, opts)
       require("nvim-treesitter").setup({
-	ensure_installed = { "lua" },
+        ensure_installed = { "lua", "vim", "rust" },
 
-	highlight = {
-	  enable = true,
-	  use_languagetree = true,
-	},
+        highlight = {
+          enable = true,
+          use_languagetree = true,
+        },
 
-	indent = { enable = true },
+        indent = { enable = true },
       })
     end,
   },
