@@ -18,11 +18,19 @@ return {
     },
   },
   {
+    "xiyaowong/transparent.nvim",
+    lazy = false,
+  },
+  {
     "rcarriga/nvim-notify",
     event = "VimEnter",
-    opts = { on_open = function(win) vim.api.nvim_win_set_config(win, { zindex = 1000 }) end },
+    opts = {
+      on_open = function(win) vim.api.nvim_win_set_config(win, { zindex = 1000 }) end,
+      stages = "fade_in_slide_out",
+    },
     config = function(_, opts)
-      require("notify").setup(opts)
+      vim.notify = require("notify")
+      require("notify").setup({})
     end
   },
   {
@@ -112,4 +120,39 @@ return {
       })
     end,
   },
+  {
+    'folke/noice.nvim',
+    opts = {
+      views = {
+        notify = {
+          replace = true,
+        }
+      },
+      lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+        progress = {
+          view = "notify",
+        }
+      },
+      -- you can enable a preset for easier configuration
+      presets = {
+        bottom_search = true, -- use a classic bottom cmdline for search
+        command_palette = true, -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false, -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true, -- add a border to hover docs and signature help
+      },
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim"
+    },
+    config = function (_, opts)
+      require("noice").setup(opts)
+    end
+  }
 }

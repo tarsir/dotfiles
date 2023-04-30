@@ -28,21 +28,21 @@ return {
     keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
     init = function ()
       local mappings = {
-	n = {
-	  ["<leader>/"] = {
-	    function()
-	      require("Comment.api").toggle.linewise.current()
-	    end,
-	    "toggle comment",
-	  },
-	},
+        n = {
+          ["<leader>/"] = {
+            function()
+              require("Comment.api").toggle.linewise.current()
+            end,
+            "toggle comment",
+          },
+        },
 
-	v = {
-	  ["<leader>/"] = {
-	    "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
-	    "toggle comment",
-	  },
-	},
+        v = {
+          ["<leader>/"] = {
+            "<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>",
+            "toggle comment",
+          },
+        },
       }
 
       require("utils").set_mapping(mappings)
@@ -60,15 +60,15 @@ return {
       check_ts = true,
       ts_config = { java = false },
       fast_wrap = {
-	map = "<M-e>",
-	chars = { "{", "[", "(", '"', "'" },
-	pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
-	offset = 0,
-	end_key = "$",
-	keys = "qwertyuiopzxcvbnmasdfghjkl",
-	check_comma = true,
-	highlight = "PmenuSel",
-	highlight_grey = "LineNr",
+        map = "<M-e>",
+        chars = { "{", "[", "(", '"', "'" },
+        pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
+        offset = 0,
+        end_key = "$",
+        keys = "qwertyuiopzxcvbnmasdfghjkl",
+        check_comma = true,
+        highlight = "PmenuSel",
+        highlight_grey = "LineNr",
       },
     },
   },
@@ -109,13 +109,13 @@ return {
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
     config = function(_, opts)
       local mappings = {
-	n = {
-	  ["<leader>bp"] = { "<Cmd>BufferPick<CR>", "buffer pick"},
-	  ["<leader>bc"] = { "<Cmd>BufferClose<CR>", "buffer close"},
-	  ["<leader>bdd"] = { "<Cmd>BufferCloseAllButCurrentOrPinned<CR>", "clear other buffers"},
-	  ["<C-a>"] = { "<Cmd>BufferPrevious<CR>", "move to previous"},
-	  ["<C-d>"] = { "<Cmd>BufferNext<CR>", "move to next"},
-	}
+        n = {
+          ["<leader>bp"] = { "<Cmd>BufferPick<CR>", "buffer pick"},
+          ["<leader>bc"] = { "<Cmd>BufferClose<CR>", "buffer close"},
+          ["<leader>bdd"] = { "<Cmd>BufferCloseAllButCurrentOrPinned<CR>", "clear other buffers"},
+          ["<C-a>"] = { "<Cmd>BufferPrevious<CR>", "move to previous"},
+          ["<C-d>"] = { "<Cmd>BufferNext<CR>", "move to next"},
+        }
       }
 
       require("utils").set_mapping(mappings)
