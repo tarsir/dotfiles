@@ -126,7 +126,13 @@ return {
       views = {
         notify = {
           replace = true,
-        }
+        },
+        hover = {
+          border = {
+            style = "rounded",
+            padding = {},
+          }
+        },
       },
       lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**

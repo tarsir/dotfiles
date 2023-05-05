@@ -82,11 +82,23 @@ return {
       require("dashboard").setup()
     end
   },
+
+  -- theme
   {
-    'tiagovla/tokyodark.nvim',
+    'catppuccin/nvim',
     lazy = false,
     config = function ()
-      vim.cmd([[colorscheme tokyodark]])
+      require("catppuccin").setup({
+        transparent_background = true,
+        integrations = {
+          noice = true,
+          mason = true,
+          telescope = true,
+          barbar = true,
+        }
+      })
+
+      vim.cmd([[colorscheme catppuccin-frappe]])
     end
   },
 
