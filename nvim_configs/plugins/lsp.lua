@@ -32,6 +32,7 @@ return {
     end,
   },
   { 'simrat39/rust-tools.nvim'},
+  { 'elixir-editors/vim-elixir'},
 
   -- Debugging
   { 'nvim-lua/plenary.nvim' },
@@ -55,9 +56,11 @@ return {
       {
         "williamboman/mason-lspconfig.nvim",
         cmd = { "LspInstall", "LspUninstall" },
-	config = function(_, opts)
-
-	end
+        config = function(_, opts)
+          require("lspconfig.ui.windows").default_options = {
+            border = "single"
+          }
+        end
       },
     },
   },

@@ -5,7 +5,7 @@ return {
     build = ":TSUpdate",
     config = function(_, opts)
       require("nvim-treesitter").setup({
-        ensure_installed = { "lua", "vim", "rust" },
+        ensure_installed = { "lua", "vim", "rust", "elixir", "heex", "eex" },
 
         highlight = {
           enable = true,
