@@ -4,12 +4,13 @@ return {
     cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
     config = function(_, opts)
-      require("nvim-treesitter").setup({
+      require("nvim-treesitter.configs").setup({
         ensure_installed = { "lua", "vim", "rust", "elixir", "heex", "eex" },
 
         highlight = {
           enable = true,
           use_languagetree = true,
+          disable = {},
         },
 
         indent = { enable = true },

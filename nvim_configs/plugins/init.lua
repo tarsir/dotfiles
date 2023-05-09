@@ -19,7 +19,12 @@ return {
     branch = 'chad',
     build = 'python3 -m chadtree deps',
     config = function(_, opts)
-      vim.api.nvim_set_keymap('n', '<C-n>', ":CHADopen<cr>", {})
+      local mappings = {
+        n = {
+          ["<C-n>"] = {"<cmd>CHADopen<CR>", "open chadtree"}
+        }
+      }
+      require("utils").set_mapping(mappings)
     end
   },
   -- commenting
@@ -99,6 +104,18 @@ return {
       })
 
       vim.cmd([[colorscheme catppuccin-frappe]])
+    end
+  },
+  {
+    'kdheepak/lazygit.nvim',
+    config = function(_, opts)
+      local mapping = {
+        n = {
+          ["<leader>gg"] = { "<cmd LazyGitCurrentFile <CR>", "open lazygit for current file"}
+        }
+      }
+
+      require("utils").set_mapping(mapping)
     end
   },
 
