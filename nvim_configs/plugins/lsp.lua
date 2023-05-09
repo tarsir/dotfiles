@@ -19,6 +19,38 @@ return {
         end,
         ["rust_analyzer"] = function ()
           require("rust-tools").setup {}
+        end,
+        ["elixirls"] = function ()
+          local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+          require("lspconfig").elixirls.setup({
+            cmd = { "elixir-ls" },
+            capabilities = capabilities,
+          })
+        end,
+        ["tailwindcss"] = function()
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+          require("lspconfig").tailwindcss.setup({
+            capabilities = capabilities,
+            filetypes = { "html", "elixir", "eelixir", "heex"},
+            init_options = {
+              userLanguages = {
+                elixir = "html-eex",
+                eelixir = "html-eex",
+                heex = "html-eex",
+              },
+            },
+            settings = {
+              tailwindCSS = {
+                experimental = {
+                  classRegex = {
+                    'class[:]\\s*"([^"]*)"',
+                  },
+                },
+              },
+            },
+          })
         end
       }
       local lspconfig = require("lspconfig")
@@ -32,7 +64,6 @@ return {
     end,
   },
   { 'simrat39/rust-tools.nvim'},
-  { 'elixir-editors/vim-elixir'},
 
   -- Debugging
   { 'nvim-lua/plenary.nvim' },
