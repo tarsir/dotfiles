@@ -59,7 +59,7 @@ return {
           },
         },
       },
-      extensions_list = {"notify", "noice"},
+      extensions_list = {"notify", "noice", "gitui"},
     }
   end,
   init = function ()
