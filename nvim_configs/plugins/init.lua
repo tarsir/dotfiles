@@ -10,8 +10,17 @@ return {
   -- shortcut helper
   {
     'folke/which-key.nvim',
-    event = "VeryLazy",
     keys = { "<leader>", '"', "'", "`", "c", "v" },
+    config = function (_, opts)
+      vim.o.timeout = true
+      vim.o.timeoutlen = 200
+      require("which-key").setup({
+        window = {
+          border = "single",
+
+        }
+      })
+    end
   },
   -- file tree
   {
@@ -107,11 +116,13 @@ return {
     end
   },
   {
-    'kdheepak/lazygit.nvim',
+    'brneor/gitui.nvim',
     config = function(_, opts)
       local mapping = {
         n = {
-          ["<leader>gg"] = { "<cmd LazyGitCurrentFile <CR>", "open lazygit for current file"}
+          ["<leader>gg"] = { "<cmd>GitUi<CR>", "open gitui"},
+          ["<leader>gf"] = { "<cmd>GitUiFilter<CR>", "open project commits"},
+          ["<leader>guc"] = { "<cmd>GitUiConfig<CR>", "open gitui config"},
         }
       }
 
