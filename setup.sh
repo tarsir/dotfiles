@@ -91,7 +91,7 @@ rust_and_utils() {
 
     echo "Installing some cargo tools"
 
-    cargo_packages_base=("exa" "bob-nvim" "erdtree" "ripgrep" "gitui" "bottom" "zellij")
+    cargo_packages_base=("exa" "bob-nvim" "erdtree" "ripgrep" "gitui" "bottom" "zellij" "mprocs" "speedtest-rs")
     cargo_packages=()
     for pkg in ${cargo_packages_base[@]}; do
       if ! cargo install --list | grep $pkg &> /dev/null; then
@@ -113,9 +113,34 @@ rust_and_utils() {
     fi
 }
 
-system_packages
-asdf_plugins_install
-starship_prompt
-rust_and_utils
+case "$1" in
+  -a|--all)
+    echo "Running all steps: system, asdf, starship, rust"
+    system_packages
+    asdf_plugins_install
+    starship_prompt
+    rust_and_utils
+    ;;
+  -s|--sys)
+    echo "Running system packages step"
+    system_packages
+    ;;
+  -a|--asdf)
+    echo "Running asdf step"
+    asdf_plugins_install
+    ;;
+  -p|--prompt)
+    echo "Running Starship step"
+    starship_prompt
+    ;;
+  -r|--rust)
+    echo "Running rust step"
+    rust_and_utils
+    ;;
+  *)
+    echo "Doing nothing for unrecognized input"
+    exit 1
+    ;;
+esac
 
 echo "Done!"
