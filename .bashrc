@@ -86,3 +86,4 @@ export FZF_DEFAULT_COMMAND='rg --files'
 
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
+eval "$(ssh-agency -y)"

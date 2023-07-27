@@ -91,7 +91,7 @@ rust_and_utils() {
 
     echo "Installing some cargo tools"
 
-    cargo_packages_base=("exa" "bob-nvim" "erdtree" "ripgrep" "gitui" "bottom" "zellij" "mprocs" "speedtest-rs")
+    cargo_packages_base=("exa" "bob-nvim" "erdtree" "ripgrep" "gitui" "bottom" "zellij" "mprocs" "speedtest-rs" "ssh-agency")
     cargo_packages=()
     for pkg in ${cargo_packages_base[@]}; do
       if ! cargo install --list | grep $pkg &> /dev/null; then
