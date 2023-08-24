@@ -1,3 +1,5 @@
+-- link to nvim-cmp documentation:
+-- https://github.com/hrsh7th/nvim-cmp/blob/main/doc/cmp.txt
 local cmp = require('cmp')
 
 local function border(hl_name)
@@ -14,15 +16,10 @@ local function border(hl_name)
 end
 
 local options = {
-  completion = {
-    completeopt = "menu,menuone",
-  },
-
   window = {
     completion = {
-      side_padding = 0,
       winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
-      scrollbar = false,
+      border = "double",
     },
     documentation = {
       border = border "CmpDocBorder",
@@ -69,5 +66,18 @@ local options = {
     { name = "path" },
   },
 }
+
+-- set some filetype overrides
+cmp.setup.filetype('gitcommit', {
+  sources = cmp.config.sources({
+    { name = 'git' },
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+cmp.setup.filetype('markdown', {
+  enabled = false
+})
 
 return options
