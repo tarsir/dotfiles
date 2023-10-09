@@ -1,6 +1,6 @@
 # tarsir's dotfiles
 
-These are my two most-used dotfiles for development on *nix/OSX systems along with any
+These are my two most-used dotfiles for development on \*nix/OSX systems along with any
 requisite files that are basically just for easier organization.
 
 ## How to Use
@@ -23,7 +23,7 @@ I'm lazy.
 
 Enjoy!
 
-## Hey, you're a liar! The script does more than symlink!
+## Hey, you're a liar! The script does more than symlink
 
 Yeah. I couldn't get some of the files to work with symlinks, so alas, had to resort to
 a full on copy for some files. My tears made typing those lines easier, though.
