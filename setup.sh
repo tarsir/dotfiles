@@ -95,7 +95,7 @@ rust_and_utils() {
     cargo_packages=()
     for pkg in ${cargo_packages_base[@]}; do
       if ! cargo install --list | grep $pkg &> /dev/null; then
-	cargo_packages+=($pkg)
+        cargo_packages+=($pkg)
       fi
     done
 
