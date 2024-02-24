@@ -54,7 +54,9 @@ path_add() {
 }
 
 modify_paths() {
-  work_paths
+  if declare -F "work_paths" > /dev/null; then
+    work_paths
+  fi
   zig_paths
   path_add "/usr/local/sbin"
   path_add "$HOME/downloads/AppImages"
@@ -83,6 +85,8 @@ fi
 export BASHRC_LOADED=1
 
 export FZF_DEFAULT_COMMAND='rg --files'
+export FLYCTL_INSTALL="/home/stephen/.fly"
+path_add "$FLYCTL_INSTALL/bin:$PATH"
 
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
