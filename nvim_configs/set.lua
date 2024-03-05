@@ -1,5 +1,6 @@
 -- Change leader because reasons
 vim.g.mapleader = ","
+vim.g.dap_virtual_text = true
 vim.opt.number = true
 vim.wo.wrap = false
 vim.opt.syntax = "ON"
@@ -22,7 +23,6 @@ vim.opt.updatetime = 50
 -- Always show the signcolumn, otherwise it would shift the text each time
 -- diagnostics appear/become resolved.
 vim.opt.signcolumn = 'yes'
-
 -- fix some elixir file associations
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.ex", "*.exs", "mix.lock" },

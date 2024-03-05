@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local diag_float_grp = vim.api.nvim_create_augroup("DiagnosticFloat", { clear = true })
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
-   vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
+    vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
   end,
   group = diag_float_grp,
 })

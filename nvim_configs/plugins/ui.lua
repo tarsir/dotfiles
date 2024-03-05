@@ -21,18 +21,25 @@ return {
     "xiyaowong/transparent.nvim",
     lazy = false,
   },
+  -- notification window
   {
     "rcarriga/nvim-notify",
     event = "VimEnter",
+    keys = {
+      { "<leader>nc", function() require("notify").dismiss() end, desc = "Dismiss notifications",   mode = "n" },
+      { "<leader>nh", "<cmd>Telescope notify<CR>",                desc = "Telescope notifications", mode = "n" },
+    },
     opts = {
       on_open = function(win) vim.api.nvim_win_set_config(win, { zindex = 1000 }) end,
       stages = "fade_in_slide_out",
+      background_colour = "#111111",
     },
     config = function(_, opts)
       vim.notify = require("notify")
-      require("notify").setup({})
+      require("notify").setup(opts)
     end
   },
+  -- upgrade the default menus
   {
     "stevearc/dressing.nvim",
     opts = {
@@ -53,72 +60,10 @@ return {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    opts = {
-      buftype_exclude = {
-        "nofile",
-        "terminal",
-      },
-      filetype_exclude = {
-        "help",
-        "startify",
-        "aerial",
-        "alpha",
-        "dashboard",
-        "lazy",
-        "neogitstatus",
-        "NvimTree",
-        "neo-tree",
-        "Trouble",
-      },
-      context_patterns = {
-        "class",
-        "return",
-        "function",
-        "method",
-        "^if",
-        "^while",
-        "jsx_element",
-        "^for",
-        "^object",
-        "^table",
-        "block",
-        "arguments",
-        "if_statement",
-        "else_clause",
-        "jsx_element",
-        "jsx_self_closing_element",
-        "try_statement",
-        "catch_clause",
-        "import_statement",
-        "operation_type",
-      },
-      show_trailing_blankline_indent = false,
-      use_treesitter = true,
-      char = "▏",
-      context_char = "▏",
-      show_current_context = true,
-      show_current_context_start = true,
-      space_char_blankline = " ",
-    },
+    main = "ibl",
   },
   {
     "lewis6991/gitsigns.nvim",
-    ft = "gitcommit",
-    init = function()
-      -- load gitsigns only when a git file is opened
-      vim.api.nvim_create_autocmd({ "BufRead" }, {
-        group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
-        callback = function()
-          vim.fn.system("git -C " .. '"' .. vim.fn.expand "%:p:h" .. '"' .. " rev-parse")
-          if vim.v.shell_error == 0 then
-            vim.api.nvim_del_augroup_by_name "GitSignsLazyLoad"
-            vim.schedule(function()
-              require("lazy").load { plugins = { "gitsigns.nvim" } }
-            end)
-          end
-        end,
-      })
-    end,
   },
   {
     'folke/noice.nvim',
@@ -147,17 +92,17 @@ return {
       },
       -- you can enable a preset for easier configuration
       presets = {
-        bottom_search = true, -- use a classic bottom cmdline for search
-        command_palette = true, -- position the cmdline and popupmenu together
+        bottom_search = true,         -- use a classic bottom cmdline for search
+        command_palette = true,       -- position the cmdline and popupmenu together
         long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false, -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true, -- add a border to hover docs and signature help
+        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true,        -- add a border to hover docs and signature help
       },
     },
     dependencies = {
       "MunifTanjim/nui.nvim"
     },
-    config = function (_, opts)
+    config = function(_, opts)
       require("noice").setup(opts)
     end
   }

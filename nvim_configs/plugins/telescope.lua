@@ -1,6 +1,6 @@
 return {
   'nvim-telescope/telescope.nvim',
-  tag = '0.1.1',
+  tag = '0.1.5',
   cmd = "Telescope",
   dependencies = {
     'nvim-lua/plenary.nvim',
@@ -59,31 +59,26 @@ return {
           },
         },
       },
-      extensions_list = {"notify", "noice", "gitui"},
+      extensions_list = { "notify", "noice", "gitui" },
     }
   end,
-  init = function ()
-    local mappings =   {
-      n = {
-        -- find
-        ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
-        ["<leader>fg"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
-        ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
-        ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
-        ["<leader>fo"] = { "<cmd> Telescope oldfiles <CR>", "find oldfiles" },
-        ["<leader>fz"] = { "<cmd> Telescope current_buffer_fuzzy_find <CR>", "find in current buffer" },
+  keys = {
+    -- find
+    { "<leader>ff", "<cmd> Telescope find_files <CR>",                desc = "find files",             mode = "n" },
+    { "<leader>fg", "<cmd> Telescope live_grep <CR>",                 desc = "live grep",              mode = "n" },
+    { "<leader>fb", "<cmd> Telescope buffers <CR>",                   desc = "find buffers",           mode = "n" },
+    { "<leader>fh", "<cmd> Telescope help_tags <CR>",                 desc = "help page",              mode = "n" },
+    { "<leader>fo", "<cmd> Telescope oldfiles <CR>",                  desc = "find oldfiles",          mode = "n" },
+    { "<leader>fz", "<cmd> Telescope current_buffer_fuzzy_find <CR>", desc = "find in current buffer", mode = "n" },
 
-        -- git
-        ["<leader>cm"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
-        ["<leader>gs"] = { "<cmd> Telescope git_status <CR>", "git status" },
+    -- git
+    { "<leader>cm", "<cmd> Telescope git_commits <CR>",               desc = "git commits",            mode = "n" },
+    { "<leader>gs", "<cmd> Telescope git_status <CR>",                desc = "git status",             mode = "n" },
 
-        -- pick a hidden term
-        ["<leader>pt"] = { "<cmd> Telescope terms <CR>", "pick hidden term" },
-      }
-    }
+    -- pick a hidden term
+    { "<leader>pt", "<cmd> Telescope terms <CR>",                     desc = "pick hidden term",       mode = "n" },
 
-    require("utils").set_mapping(mappings)
-  end,
+  },
   config = function(_, opts)
     local telescope = require "telescope"
     telescope.setup(opts)
