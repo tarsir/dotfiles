@@ -6,21 +6,22 @@ return {
     dependencies = {
       "neovim/nvim-lspconfig",
       "williamboman/mason-lspconfig.nvim",
+      'simrat39/rust-tools.nvim',
+
     },
     config = function(_, opts)
       require("mason").setup(opts)
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "rust_analyzer", "elixirls"},
-        automatic_installation = { exclude = { "zls"} }
+        ensure_installed = { "lua_ls", "rust_analyzer", "elixirls" },
+        automatic_installation = { exclude = { "zls" } }
       })
       require("mason-lspconfig").setup_handlers {
-        function (server_name)
+        function(server_name)
           require("lspconfig")[server_name].setup {}
         end,
-        ["rust_analyzer"] = function ()
-          require("rust-tools").setup {}
+        ["rust_analyzer"] = function()
         end,
-        ["elixirls"] = function ()
+        ["elixirls"] = function()
           local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
           require("lspconfig").elixirls.setup({
@@ -33,7 +34,7 @@ return {
 
           require("lspconfig").tailwindcss.setup({
             capabilities = capabilities,
-            filetypes = { "html", "elixir", "eelixir", "heex"},
+            filetypes = { "html", "elixir", "eelixir", "heex" },
             init_options = {
               userLanguages = {
                 elixir = "html-eex",
@@ -55,28 +56,17 @@ return {
       }
       local lspconfig = require("lspconfig")
       lspconfig.zls.setup({
-        cmd = {"zls"},
+        cmd = { "zls" },
         filetypes = { "zig", "zir", "zon" },
         root_dir = lspconfig.util.root_pattern("zls.json", ".git"),
         single_file_support = true
       })
-
     end,
   },
-  { 'simrat39/rust-tools.nvim'},
-
   -- Debugging
   { 'nvim-lua/plenary.nvim' },
-  { 'mfussenegger/nvim-dap'},
-
   {
     "b0o/SchemaStore.nvim"
-  },
-  {
-    "ziglang/zig.vim"
-  },
-  {
-    "folke/neodev.nvim",
   },
   {
     "nvim-lua/lsp-status.nvim",
@@ -93,19 +83,15 @@ return {
           }
         end
       },
-    },
-  },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    dependencies = {
+      -- neovim Lua specific
       {
-        "jay-babu/mason-null-ls.nvim",
-        cmd = { "NullLsInstall", "NullLsUninstall" },
-        opts = { handlers = {} },
-      },
+        "folke/neodev.nvim",
+        config = function(_, opts)
+          require("neodev").setup({})
+        end
+      }
     },
   },
-
   -- cmp
   {
     "hrsh7th/nvim-cmp",
@@ -114,7 +100,8 @@ return {
       {
         -- snippet plugin
         "L3MON4D3/LuaSnip",
-        dependencies = "rafamadriz/friendly-snippets",
+        version = "2.2.0",
+        build = "make install_jsregexp",
         opts = { history = true, updateevents = "TextChanged,TextChangedI" },
       },
 
