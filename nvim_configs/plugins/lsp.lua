@@ -7,7 +7,6 @@ return {
       "neovim/nvim-lspconfig",
       "williamboman/mason-lspconfig.nvim",
       'simrat39/rust-tools.nvim',
-
     },
     config = function(_, opts)
       require("mason").setup(opts)
@@ -23,6 +22,7 @@ return {
         end,
         ["elixirls"] = function()
           local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 
           require("lspconfig").elixirls.setup({
             cmd = { "elixir-ls" },
@@ -100,9 +100,14 @@ return {
       {
         -- snippet plugin
         "L3MON4D3/LuaSnip",
+        dependencies = { "rafamadriz/friendly-snippets" },
         version = "2.2.0",
         build = "make install_jsregexp",
         opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+        config = function(_, opts)
+          require("luasnip").config.set_config(opts)
+          require("luasnip.loaders.from_vscode").lazy_load()
+        end
       },
 
       -- autopairing of (){}[] etc
@@ -122,16 +127,17 @@ return {
       },
 
       -- cmp sources plugins
-      {
-        "saadparwaiz1/cmp_luasnip",
-        "hrsh7th/cmp-nvim-lua",
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-      },
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lua",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
     },
     opts = function()
       return require "plugins.config.cmp"
     end,
+    config = function(_, opts)
+      require("cmp").setup(opts)
+    end
   },
 }
