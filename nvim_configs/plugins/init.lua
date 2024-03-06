@@ -1,18 +1,8 @@
-require("lazy").setup({
-  { import = "lsp", },
-  { import = "ui" },
-  { import = "telescope" },
-  { import = "treesitter" },
-  { import = "dap" },
-  { import = "linting" },
-  { import = "groups.elixir" },
-  { import = "groups.rust" },
+return {
+  { import = "plugins.groups" },
   ui = {
     border = "single"
-  }
-})
-
-return {
+  },
   -- General vim plugins,
   -- shortcut helper
   {
@@ -219,7 +209,6 @@ return {
       },
     },
   },
-
   -- starting dashboard
   {
     'glepnir/dashboard-nvim',
@@ -229,7 +218,6 @@ return {
       require("dashboard").setup()
     end
   },
-
   -- zen mode
   {
     "folke/zen-mode.nvim",
@@ -244,7 +232,6 @@ return {
     "folke/twilight.nvim",
     opts = {},
   },
-
   -- theme
   {
     'catppuccin/nvim',
@@ -271,7 +258,6 @@ return {
       { "<leader>guc", "<cmd>GitUiConfig<CR>", desc = "open gitui config",    mode = "n" },
     },
   },
-
   -- status line
   {
     'freddiehaddad/feline.nvim',

@@ -19,7 +19,7 @@ return {
   },
   {
     'saecki/crates.nvim',
-    ft = { "toml" },
+    ft = { "rust", "toml" },
     keys = {
       { "<leader>rcu", function() require('crates').upgrade_all_crates() end, mode = "n", desc = "Update crates" }
     },
