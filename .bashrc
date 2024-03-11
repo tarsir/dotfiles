@@ -15,11 +15,7 @@ if [ -f ~/.workbash ]; then
 fi
 
 # MISC
-alias ls="exa -G"
-alias del.pyc='find . -type f -name "*.pyc" -delete'
-alias del.tilde='find . -type f -name "*~" -delete'
-alias del.orig='find . -type f -name "*orig" -delete'
-alias del.clean='del.pyc && del.tilde && del.orig'
+alias ls="eza -G"
 alias src="source__"
 alias vim="nvim"
 
@@ -91,3 +87,5 @@ path_add "$FLYCTL_INSTALL/bin:$PATH"
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
 eval "$(ssh-agency -y)"
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
