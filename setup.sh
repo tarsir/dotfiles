@@ -3,25 +3,32 @@
 
 MANJARO_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
 	"autoconf" "readline" "zlib" "inotify-tools" "fuse2"
-	"python-setuptools" "base-devel")
-APT_PACKAGES=("curl" "unzip" "make"
+	"python-setuptools" "base-devel" "pkgconf" "freetype2"
+  "fontconfig" "libxcb" "xclip" "harfbuzz")
+APT_PACKAGES=("curl" "unzip" "make" "expat" "libxml2-dev" 
       "libssl-dev" "libncurses5-dev" "gcc" "automake" "autoconf"
       "libreadline-dev" "zlib1g-dev" "g++" "inotify-tools" "libfuse2"
-      "python-setuptools" "uuid-dev")
+      "python-setuptools" "uuid-dev" "pkg-config" "libasound2-dev"
+      "libssl-dev" "cmake" "libfreetype6-dev" "libexpat1-dev" 
+      "libxcb-composite0-dev" "libharfbuzz-dev")
+
+install_brew() {
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
 
 system_packages() {
   install_queue=()
   if apt --version &> /dev/null; then
     for p in ${APT_PACKAGES[*]}; do
       if apt show $p &> /dev/null; then
-	install_queue+=($p)
+        install_queue+=($p)
       fi
     done
-    sudo apt update && sudo apt install ${install_queue[@]}
+    sudo apt update && sudo apt upgrade && sudo apt install ${install_queue[@]}
   elif pacman --version &> /dev/null; then
     for p in ${APT_PACKAGES[*]}; do
       if pacman -Q $p &> /dev/null; then
-	install_queue+=($p)
+        install_queue+=($p)
       fi
     done
     sudo pacman -Syu && sudo pacman -S ${install_queue[@]}
@@ -44,7 +51,7 @@ asdf_plugins_install() {
     echo "Installing asdf plugins"
     echo
 
-    for plugin in "elixir" "erlang" "postgres"; do
+    for plugin in "elixir" "erlang" "postgres" "nodejs"; do
       if ! asdf current $plugin; then
         echo "Adding plugin $plugin"
         asdf plugin add "$plugin"
@@ -54,18 +61,6 @@ asdf_plugins_install() {
         echo "Skipping installed plugin $plugin"
       fi
     done
-
-    if ! asdf current nodejs; then
-        echo "Installing plugin nodejs"
-        asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-        asdf install nodejs latest
-        asdf global nodejs $(asdf latest nodejs)
-    fi
-
-    if ! which yarn &> /dev/null; then
-      echo "Installing yarn"
-      npm install -g yarn
-    fi
 
     echo "asdf plugins installed!"
 }
@@ -80,6 +75,17 @@ starship_prompt() {
   fi
 }
 
+brew_packages() {
+  brew install nushell
+  brew install zellij
+  brew install silicon
+  brew install erdtree
+  brew install ripgrep
+  brew install gitui
+  brew install bottom
+  brew install mprocs
+}
+
 rust_and_utils() {
     if [ ! -d "$HOME/.rustup/" ]; then
         echo "Installing rustup"
@@ -91,7 +97,7 @@ rust_and_utils() {
 
     echo "Installing some cargo tools"
 
-    cargo_packages_base=("exa" "bob-nvim" "erdtree" "ripgrep" "gitui" "bottom" "zellij" "mprocs" "speedtest-rs" "ssh-agency")
+    cargo_packages_base=("eza" "bob-nvim" "bottom" "mprocs" "speedtest-rs" "ssh-agency")
     cargo_packages=()
     for pkg in ${cargo_packages_base[@]}; do
       if ! cargo install --list | grep $pkg &> /dev/null; then
@@ -115,8 +121,10 @@ rust_and_utils() {
 
 case "$1" in
   -a|--all)
-    echo "Running all steps: system, asdf, starship, rust"
+    echo "Running all steps: system, brew, asdf, starship, rust"
     system_packages
+    install_brew
+    brew_packages
     asdf_plugins_install
     starship_prompt
     rust_and_utils
@@ -136,6 +144,11 @@ case "$1" in
   -r|--rust)
     echo "Running rust step"
     rust_and_utils
+    ;;
+  -b|--brew)
+    echo "Install homebrew and homebrew packages"
+    install_brew
+    brew_packages
     ;;
   *)
     echo "Doing nothing for unrecognized input"
