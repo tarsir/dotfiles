@@ -21,20 +21,21 @@ rm -f "${ssh_config_path}"
 cp "./ssh_config" "${ssh_config_path}"
 
 rm -f "$HOME/.config/gitui/key_bindings.ron"
-cp "./key_bindings.ron" "$HOME/.config/gitui/key_bindings.ron"
+cp "./config/gitui/key_bindings.ron" "$HOME/.config/gitui/key_bindings.ron"
+rm -f "$HOME/.config/starship.toml"
+cp "./config/starship.toml" "$HOME/.config/starship.toml"
 
 # Do separately for nvim
 
 echo "Copying nushell config files: config.nu, env.nu, my_config.nu, my_env.nu"
 NUSHELL_FILES=("config.nu" "env.nu" "my_config.nu" "my_env.nu")
-
-echo "Now copying nvim config"
 NUSHELL_DIR="$HOME/.config/nushell/"
 for f in ${NUSHELL_FILES[*]}; do
   rm -f "$NUSHELL_DIR/$f"
   ln -s "$(pwd)/${f}" "$NUSHELL_DIR/${f}"
 done
 
+echo "Now copying nvim config"
 NVIM_CONFIG="nvim.lua"
 NVIM_PLUGINS_PATH="lua/plugins"
 NVIM_BASE_DIR="$HOME/.config/nvim/"
