@@ -90,6 +90,7 @@ $env.NU_PLUGIN_DIRS = [
 # An alternate way to add entries to $env.PATH is to use the custom command `path add`
 # which is built into the nushell stdlib:
 use std "path add"
+$env.CARGO_HOME = "$env.HOME/.cargo"
 $env.PATH = ($env.PATH | split row (char esep))
 path add /some/path
 path add ($env.CARGO_HOME | path join "bin")
@@ -103,8 +104,6 @@ path add "$env.LLVM_INSTALL_PATH/bin"
 path add "$env.FLYCTL_INSTALL/bin:$PATH"
 path add "$env.HOME/Downloads/zig/build/stage3/bin"
 path add "$env.HOME/Downloads/zls/zig-out/bin"
-$env.ASDF_DIR = ($env.HOME | path join '.asdf')
-source ($env.HOME | path join '.asdf/asdf.nu') | save --append $nu.config-path
 $env.PATH = ($env.PATH | uniq)
 
 # To load from a custom file you can use:

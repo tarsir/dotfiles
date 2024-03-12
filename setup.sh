@@ -98,7 +98,7 @@ rust_and_utils() {
 
   echo "Installing some cargo tools"
 
-  cargo_packages_base=("eza" "bob-nvim" "bottom" "mprocs" "speedtest-rs" "ssh-agency")
+  cargo_packages_base=("eza" "bob-nvim" "speedtest-rs" "ssh-agency")
   cargo_packages=()
   for pkg in ${cargo_packages_base[@]}; do
     if ! cargo install --list | grep $pkg &>/dev/null; then
