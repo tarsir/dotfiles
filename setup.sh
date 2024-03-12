@@ -38,6 +38,16 @@ system_packages() {
   fi
 }
 
+asdf_update() {
+  if [ -e "~/.asdf" ]; then
+    pushd .
+    cd ~/.asdf
+    git fetch
+    git checkout "$(git describe --abbrev=0 --tags)"
+    popd
+  fi
+}
+
 asdf_plugins_install() {
   if [ ! -e "~/.asdf" ]; then
     echo "Installing asdf"
@@ -66,17 +76,8 @@ asdf_plugins_install() {
   echo "asdf plugins installed!"
 }
 
-starship_prompt() {
-  if ! starship help &>/dev/null; then
-    echo "Installing Starship prompt"
-
-    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-  else
-    echo "Starship already installed! Skipping"
-  fi
-}
-
 brew_packages() {
+  brew install eza
   brew install nushell
   brew install zellij
   brew install silicon
@@ -85,6 +86,7 @@ brew_packages() {
   brew install gitui
   brew install bottom
   brew install mprocs
+  brew install starship
 }
 
 rust_and_utils() {
@@ -92,13 +94,16 @@ rust_and_utils() {
     echo "Installing rustup"
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     source "$HOME/.cargo/env"
+  else
+    echo "Updating rustup"
+    rustup update
   fi
 
   export PATH="$PATH:$HOME/.cargo/bin"
 
   echo "Installing some cargo tools"
 
-  cargo_packages_base=("eza" "bob-nvim" "speedtest-rs" "ssh-agency")
+  cargo_packages_base=("bob-nvim" "speedtest-rs" "ssh-agency")
   cargo_packages=()
   for pkg in ${cargo_packages_base[@]}; do
     if ! cargo install --list | grep $pkg &>/dev/null; then
@@ -122,12 +127,11 @@ rust_and_utils() {
 
 case "$1" in
 -a | --all)
-  echo "Running all steps: system, brew, asdf, starship, rust"
+  echo "Running all steps: system, brew, asdf, rust"
   system_packages
   install_brew
   brew_packages
   asdf_plugins_install
-  starship_prompt
   rust_and_utils
   ;;
 -s | --sys)
@@ -137,10 +141,6 @@ case "$1" in
 -a | --asdf)
   echo "Running asdf step"
   asdf_plugins_install
-  ;;
--p | --prompt)
-  echo "Running Starship step"
-  starship_prompt
   ;;
 -r | --rust)
   echo "Running rust step"

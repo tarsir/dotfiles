@@ -77,6 +77,6 @@ modify_paths
 
 export FZF_DEFAULT_COMMAND='rg --files'
 
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(starship init bash)"
 eval "$(ssh-agency -y)"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
