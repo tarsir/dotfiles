@@ -1,23 +1,23 @@
 #!/bin/bash
 
-echo "Backing up existing files to this directory just in case"
+echo "Backing up existing files"
 FILES=(".bashrc" ".gitbash")
 DATE=$(date +%Y%m%d)
 mkdir -p backups
 for f in ${FILES[*]}; do
-    cp "$f" "backups/backup$f-${DATE}"
+  cp "$f" "backups/backup$f-${DATE}"
 done
 
-echo "So now we can remove the existing links, and then make new ones!"
+echo "Removing existing links for current versions"
 for f in ${FILES[*]}; do
-    rm -f "${HOME}/$f"
-    echo "Linking $f to ~/$f"
-    ln -s "$(pwd)/${f}" "$HOME/${f}"
+  rm -f "${HOME}/$f"
+  echo "Linking $f to ~/$f"
+  ln -s "$(pwd)/${f}" "$HOME/${f}"
 done
 
+echo "Copying ./ssh_config to ${ssh_config_path}"
 ssh_config_path="${HOME}/.ssh/config"
 rm -f "${ssh_config_path}"
-echo "Copying ./ssh_config to ${ssh_config_path}"
 cp "./ssh_config" "${ssh_config_path}"
 
 rm -f "$HOME/.config/gitui/key_bindings.ron"
@@ -25,7 +25,15 @@ cp "./key_bindings.ron" "$HOME/.config/gitui/key_bindings.ron"
 
 # Do separately for nvim
 
+echo "Copying nushell config files: config.nu, env.nu, my_config.nu, my_env.nu"
+NUSHELL_FILES=("config.nu" "env.nu" "my_config.nu" "my_env.nu")
+
 echo "Now copying nvim config"
+NUSHELL_DIR="$HOME/.config/nushell/"
+for f in ${NUSHELL_FILES[*]}; do
+  rm -f "$NUSHELL_DIR/$f"
+  ln -s "$(pwd)/${f}" "$NUSHELL_DIR/${f}"
+done
 
 NVIM_CONFIG="nvim.lua"
 NVIM_PLUGINS_PATH="lua/plugins"

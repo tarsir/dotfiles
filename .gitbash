@@ -15,10 +15,6 @@ fi
 source $GIT_REPO_DIR/git-completion.bash
 source $GIT_REPO_DIR/git-prompt.sh
 
-function _gitRemoteSet(){
-    git branch --set-upstream-to=origin/"$1" "$1"
-}
-
 function g.untracked {
     g.s | sed -n -e '/Untracked files/,$p' | tail -n +4 | sed '$d' | sed '$d'
 }
@@ -33,7 +29,6 @@ alias g.b="git branch -v --sort=committerdate"
 alias g.p="git pull -r"
 alias g.c="git commit -v"
 alias g.cv="git commit --no-verify -v"
-alias g.grs="_gitRemoteSet"
 alias g.pf="git push --force-with-lease"
 
 # add git aliases to auto-completion
@@ -47,6 +42,7 @@ __git_complete g.p _git_pull
 # Use this .gitignore for system
 git config --global core.excludesfile '~/.gitignore'
 git config --global core.editor "nvim"
+git config --global push.default "current"
 git config --global push.autoSetupRemote "true"
 git config --global pull.rebase "true"
 git config --global user.email "stephen.hara@stephenhara.com"
