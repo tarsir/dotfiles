@@ -10,10 +10,6 @@ fi
 if [ ! -s ${GIT_REPO_DIR}/git-prompt.sh ]; then
     echo "Downloading git-prompt script"
     curl -s ${GIT_COMPLETION_URL}/git-prompt.sh > $GIT_REPO_DIR/git-prompt.sh
-
-    # go ahead and put first time git config here too
-    git config --global user.email "stephen.hara@stephenhara.com"
-    git config --global user.name "Stephen Hara"
 fi
 
 source $GIT_REPO_DIR/git-completion.bash
@@ -28,9 +24,8 @@ function g.untracked {
 }
 
 # nifty git aliases
-
-alias git-tree="git log --graph --pretty=oneline --abbrev-commit"
-alias g.log="clear; git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
+alias g.tree="git log --graph --pretty=oneline --abbrev-commit"
+alias g.log="git log --graph --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)— %an%C(reset)%C(bold yellow)%d%C(reset)' --abbrev-commit --date=relative"
 alias g.co="git checkout"
 alias g.s="git status"
 alias g.d="git diff"
@@ -54,10 +49,5 @@ git config --global core.excludesfile '~/.gitignore'
 git config --global core.editor "nvim"
 git config --global push.autoSetupRemote "true"
 git config --global pull.rebase "true"
-
-# ez dos2unix on all modified files
-function line_endings() {
-    for f in $(git status -s | awk '{for (i = 1; i <= NF; i++) { if ($i != "M" && $i != "A" && $i != "D") { print $i }}}')
-        do dos2unix $f
-    done
-}
+git config --global user.email "stephen.hara@stephenhara.com"
+git config --global user.name "Stephen Hara"
