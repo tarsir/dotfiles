@@ -1,58 +1,65 @@
 -- easy movement
 local keyset = vim.keymap.set
-keyset('n', '<C-j>', '<C-w>j')
-keyset('n', '<C-h>', '<C-w>h')
-keyset('n', '<C-k>', '<C-w>k')
-keyset('n', '<C-l>', '<C-w>l')
-keyset('n', '<C-a>', vim.cmd('tabnext'))
-keyset('n', '<C-d>', vim.cmd('tabprev'))
+keyset("n", "<C-j>", "<C-w>j")
+keyset("n", "<C-h>", "<C-w>h")
+keyset("n", "<C-k>", "<C-w>k")
+keyset("n", "<C-l>", "<C-w>l")
+keyset("n", "<C-a>", vim.cmd("tabnext"))
+keyset("n", "<C-d>", vim.cmd("tabprev"))
 
 -- custom remappings
 -- Ctrl-S to save
-keyset({ '!', 'n', 'v' }, "<C-s>", "<ESC>:w<CR>")
+keyset({ "!", "n", "v" }, "<C-s>", "<ESC>:w<CR>")
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	callback = function(ev)
+		-- Enable completion triggered by <c-x><c-o>
+		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-m>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<leader>a', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>f', function()
-      vim.lsp.buf.format { async = true }
-    end, opts)
-  end,
+		-- Buffer local mappings.
+		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		local mappings = {
+			n = {
+				["gD"] = { vim.lsp.buf.declaration, "Go to declaration" },
+				["gd"] = { vim.lsp.buf.definition, "Go to definition" },
+				["K"] = { vim.lsp.buf.hover, "Hover" },
+				["gi"] = { vim.lsp.buf.implementation, "Go to implementation" },
+				["<C-m>"] = { vim.lsp.buf.signature_help, "Show signature" },
+				["<leader>D"] = { vim.lsp.buf.type_definition, "Show type definition" },
+				["<leader>rn"] = { vim.lsp.buf.rename, "Rename item" },
+				["<leader>a"] = { vim.lsp.buf.code_action, "Show LSP code actions" },
+				["<leader>f"] = {
+					function()
+						vim.lsp.buf.format({ async = true })
+					end,
+					"Format document",
+				},
+				["gr"] = { vim.lsp.buf.references, "Show references" },
+			},
+		}
+		require("utils").set_lsp_mapping(mappings, ev)
+	end,
 })
 
 -- Show diagnostic popup on cursor hover
 local diag_float_grp = vim.api.nvim_create_augroup("DiagnosticFloat", { clear = true })
 vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function()
-    vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
-  end,
-  group = diag_float_grp,
+	callback = function()
+		vim.diagnostic.open_float(nil, { focusable = false, border = "rounded" })
+	end,
+	group = diag_float_grp,
 })
 
 -- Goto previous/next diagnostic warning/error
-vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, keymap_opts)
-vim.keymap.set("n", "g]", vim.diagnostic.goto_next, keymap_opts)
+vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+vim.keymap.set("n", "g]", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function(args)
-    require("conform").format({ bufnr = args.buf })
-  end,
+	pattern = "*",
+	callback = function(args)
+		require("conform").format({ bufnr = args.buf })
+	end,
 })
