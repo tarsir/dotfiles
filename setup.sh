@@ -1,10 +1,10 @@
 #!/bin/bash
 # Some stuff I wanna run on all of my *nix systems
 
-MANJARO_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
+ARCH_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
   "autoconf" "readline" "zlib" "inotify-tools" "fuse2"
   "python-setuptools" "base-devel" "pkgconf" "freetype2"
-  "fontconfig" "libxcb" "xclip" "harfbuzz")
+  "fontconfig" "libxcb" "xclip" "harfbuzz" "lutris" "flatpak" "steam")
 
 APT_PACKAGES=("curl" "unzip" "make" "expat" "libxml2-dev"
   "libssl-dev" "libncurses5-dev" "gcc" "automake" "autoconf"
@@ -15,6 +15,11 @@ APT_PACKAGES=("curl" "unzip" "make" "expat" "libxml2-dev"
 
 install_brew() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+}
+
+flatpak_packages() {
+  # TODO: do something with this
+  FLATPAK_PACKAGES=("obsidian" "discord")
 }
 
 system_packages() {
