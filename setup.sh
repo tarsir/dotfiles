@@ -4,17 +4,20 @@
 ARCH_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
   "autoconf" "readline" "zlib" "inotify-tools" "fuse2"
   "python-setuptools" "base-devel" "pkgconf" "freetype2"
-  "fontconfig" "libxcb" "xclip" "harfbuzz" "lutris" "flatpak" "steam")
+  "fontconfig" "libxcb" "xclip" "harfbuzz" "lutris" "flatpak" "steam" "neovim")
 
 APT_PACKAGES=("curl" "unzip" "make" "expat" "libxml2-dev"
   "libssl-dev" "libncurses5-dev" "gcc" "automake" "autoconf"
   "libreadline-dev" "zlib1g-dev" "g++" "inotify-tools" "libfuse2"
   "python-setuptools" "uuid-dev" "pkg-config" "libasound2-dev"
   "libssl-dev" "cmake" "libfreetype6-dev" "libexpat1-dev"
-  "libxcb-composite0-dev" "libharfbuzz-dev")
+  "libxcb-composite0-dev" "libharfbuzz-dev" "neovim")
+
+ZYPPER_PACKAGES=("git-core" "neovim" "gcc" "make" "inotify-tools" "neovim" "openssl-devel")
 
 install_brew() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 }
 
 flatpak_packages() {
@@ -28,16 +31,29 @@ system_packages() {
     for p in ${APT_PACKAGES[*]}; do
       if apt show $p &>/dev/null; then
         install_queue+=($p)
+      else
+	echo "Couldn't find $p in apt repositories"
       fi
     done
     sudo apt update && sudo apt upgrade && sudo apt install ${install_queue[@]}
   elif pacman --version &>/dev/null; then
-    for p in ${APT_PACKAGES[*]}; do
+    for p in ${MANJARO_PACKAGES[*]}; do
       if pacman -Q $p &>/dev/null; then
         install_queue+=($p)
+      else
+	echo "Couldn't find $p in pacman repositories"
       fi
     done
     sudo pacman -Syu && sudo pacman -S ${install_queue[@]}
+  elif zypper --version &>/dev/null; then
+    for p in ${ZYPPER_PACKAGES[*]}; do
+      if zypper -Q $p &>/dev/null; then
+        install_queue+=($p)
+      else
+	echo "Couldn't find $p in zypper repositories"
+      fi
+    done
+    sudo zypper ref && sudo zypper install ${install_queue[@]}
   else
     echo "I don't support your system's package manager yet. Skipping system packages."
   fi
@@ -82,16 +98,20 @@ asdf_plugins_install() {
 }
 
 brew_packages() {
-  brew install eza
-  brew install nushell
-  brew install zellij
-  brew install silicon
-  brew install erdtree
-  brew install ripgrep
-  brew install gitui
-  brew install bottom
-  brew install mprocs
-  brew install starship
+  packages=("eza" "nushell" "zellij" "silicon" "erdtree" "ripgrep" "gitui" "bottom" "mprocs" "starship")
+  brew_list=$(brew list)
+  brew_packages=()
+  for pkg in ${packages[@]}; do
+    if ! echo "$brew_list" | grep -w $pkg &>/dev/null; then
+      brew_packages+=($pkg)
+    fi
+  done
+
+  if [ "${#brew_packages[@]}" -eq 0 ]; then
+    echo "All Homebrew packages already installed!"
+  else
+    brew install ${brew_packages[*]}
+  fi
 }
 
 rust_and_utils() {
@@ -101,6 +121,7 @@ rust_and_utils() {
     source "$HOME/.cargo/env"
   else
     echo "Updating rustup"
+    source "$HOME/.cargo/env"
     rustup update
   fi
 
@@ -120,13 +141,6 @@ rust_and_utils() {
     echo "All Cargo packages already installed!"
   else
     cargo install ${cargo_packages[*]}
-  fi
-
-  NVIM_VERSION="stable"
-  if ! bob ls | grep ${NVIM_VERSION} &>/dev/null; then
-    echo "Installing nvim version $NVIM_VERSION via bob-nvim"
-    bob install "${NVIM_VERSION}"
-    bob use "${NVIM_VERSION}"
   fi
 }
 
