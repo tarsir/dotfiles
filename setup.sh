@@ -13,6 +13,8 @@ APT_PACKAGES=("curl" "unzip" "make" "expat" "libxml2-dev"
   "libssl-dev" "cmake" "libfreetype6-dev" "libexpat1-dev"
   "libxcb-composite0-dev" "libharfbuzz-dev")
 
+ZYPPER_PACKAGES=("git-core" "neovim")
+
 install_brew() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
@@ -28,16 +30,29 @@ system_packages() {
     for p in ${APT_PACKAGES[*]}; do
       if apt show $p &>/dev/null; then
         install_queue+=($p)
+      else
+	echo "Couldn't find $p in apt repositories"
       fi
     done
     sudo apt update && sudo apt upgrade && sudo apt install ${install_queue[@]}
   elif pacman --version &>/dev/null; then
-    for p in ${APT_PACKAGES[*]}; do
+    for p in ${MANJARO_PACKAGES[*]}; do
       if pacman -Q $p &>/dev/null; then
         install_queue+=($p)
+      else
+	echo "Couldn't find $p in pacman repositories"
       fi
     done
     sudo pacman -Syu && sudo pacman -S ${install_queue[@]}
+  elif zypper --version &>/dev/null; then
+    for p in ${ZYPPER_PACKAGES[*]}; do
+      if zypper -Q $p &>/dev/null; then
+        install_queue+=($p)
+      else
+	echo "Couldn't find $p in zypper repositories"
+      fi
+    done
+    sudo zypper ref && sudo zypper install ${install_queue[@]}
   else
     echo "I don't support your system's package manager yet. Skipping system packages."
   fi
