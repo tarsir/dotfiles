@@ -1,29 +1,38 @@
 # tarsir's dotfiles
 
-These are my two most-used dotfiles for development on \*nix/OSX systems along with any
-requisite files that are basically just for easier organization.
+These are my dotfiles, consisting of:
+
+- some bash/nushell files
+- some other common configs for applications
+- `.tool-versions` for `asdf`
+- a whole lot of Neovim config
+- `setup.sh`, a script to install all my usual dependencies
+- `make_symlinks.sh`, a script to make symlinks or otherwise move stuff to the right place
 
 ## How to Use
 
-Simply clone the repo, then run the `setup_symlinks.sh` script.
+Simply clone the repo, then run:
 
-```bash
-git clone https://github.com/tarsir/dotfiles.git
-cd dotfiles
-chmod a+x setup_symlinks.sh
-./setup_symlinks.sh
+```sh
+./setup.sh -a
+./make_symlinks.sh
 ```
 
-It also takes a backup of the current version of any of these files that exist and
-puts them in a directory called `backups` off of the repository root.
+### `make_symlinks.sh`
 
-This might not work if you have your .bashrc and .vimrc housed somewhere other than
-your user home (`~`). I could add an optional argument to the setup script, but
-I'm lazy.
+This script does a little more than symlinking, such as:
 
-Enjoy!
+- Backs up existing `.bashrc` and `.gitbash`
+- Removes current versions of those files
+- Copies configs for ssh, gitui, starship, and nushell
+- Copies nvim config
 
-## Hey, you're a liar! The script does more than symlink
+### `setup.sh`
 
-Yeah. I couldn't get some of the files to work with symlinks, so alas, had to resort to
-a full on copy for some files. My tears made typing those lines easier, though.
+Alternative options for `setup.sh` include:
+
+- `-s/--sys` only installs system packages, supporting `apt` and `pacman`
+- `-a/--asdf` runs some setup for my `asdf` languages
+- `-r/--rust` installs rust and installs some tools with cargo
+- `-b/--brew` installs some homebrew packages
+
