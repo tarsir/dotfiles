@@ -13,6 +13,30 @@ if [ -f ~/.workbash ]; then
   source ~/.workbash
 fi
 
+# color definitions
+black_fg=30
+red_fg=31
+green_fg=32
+yellow_fg=33
+blue_fg=34
+magenta_fg=35
+cyan_fg=36
+white_fg=37
+black_bg=40
+red_bg=41
+green_bg=42
+yellow_bg=43
+blue_bg=44
+magenta_bg=45
+cyan_bg=46
+white_bg=47
+
+function colorize {
+  local color=$1
+  local message=$2
+  echo -e "\e[${color}m${message}\e[0m"
+}
+
 alias ls="eza -G"
 alias src="source__"
 alias vim="nvim"
@@ -22,19 +46,30 @@ function du.all {
 }
 
 function find.big {
-  SIZE="${1:-+200M}"
+  local SIZE="${1:-+200M}"
   find . -size "${SIZE}" -exec ls -lh {} \;
 }
 
 function f.diff {
-  TARGET_FILE=${1}
-  TARGET_BRANCH=${2}
+  local TARGET_FILE=${1}
+  local TARGET_BRANCH=${2}
   find . -name "*${TARGET_FILE}" | xargs -I{} git diff ${TARGET_BRANCH} {}
 }
 
 function source__ {
-  SOURCE_FILE=${1:-~/.bashrc}
+  local SOURCE_FILE=${1:-~/.bashrc}
   source "$SOURCE_FILE"
+}
+
+function projects_in_dir {
+  local target_dir=${1:-$(pwd)}
+  find $target_dir -maxdepth 2 -name "*README.md" | while read -r file; do
+    project_name=$(basename $(dirname ${file}))
+    colorize $blue_fg "${project_name}"
+    echo
+    sed '/^# \|^$/d;/^##/Q' $file
+    printf "\n-------------------\n"
+  done
 }
 
 path_add() {
@@ -69,14 +104,19 @@ zig_paths() {
   path_add "$HOME/Downloads/zls/zig-out/bin"
 }
 
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
-. "$HOME/.cargo/env"
-
-modify_paths
-
 export FZF_DEFAULT_COMMAND='rg --files'
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "$(starship init bash)"
-eval "$(ssh-agency -y)"
+function startup {
+  if [ ${INITIALIZED:=no} == "no" ]; then
+    eval "$(~/.local/bin/mise activate bash)"
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    eval "$(starship init bash)"
+    eval "$(ssh-agency -y)"
+    . "$HOME/.cargo/env"
+    modify_paths
+
+    export INITIALIZED="yes"
+  fi
+}
+
+startup

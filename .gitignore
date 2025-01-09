@@ -1,6 +1,7 @@
 # Ignores for this project
 backups/*
 *.bkup
+*.png
 
 # Things to ignore globally
 **/.ropeproject
