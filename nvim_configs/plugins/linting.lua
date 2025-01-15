@@ -1,7 +1,7 @@
 return {
 	{
 		"stevearc/conform.nvim",
-		cmd = { "ConformInfo" },
+		event = { "BufReadPre", "BufNewFile" },
 		keys = {
 			{
 				-- Customize or remove this keymap to your liking
@@ -17,10 +17,12 @@ return {
 		opts = {
 			formatters_by_ft = {
 				lua = { "lua_ls", "stylua" },
+				elixir = { "elixirls" },
 				sh = { "shfmt" },
 				python = { "isort", "black" },
 				javascript = { { "prettierd", "prettier" } },
 				typescript = { { "prettierd", "prettier" } },
+				markdown = { "prettier" },
 			},
 			format_on_save = { timeout_ms = 500, lsp_fallback = true },
 			formatters = {
@@ -29,6 +31,9 @@ return {
 				},
 			},
 		},
+		config = function(_, opts)
+			local conform = require("conform").setup(opts)
+		end,
 	},
 	{
 		"mfussenegger/nvim-lint",

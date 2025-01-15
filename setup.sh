@@ -32,7 +32,7 @@ system_packages() {
       if apt show $p &>/dev/null; then
         install_queue+=($p)
       else
-	echo "Couldn't find $p in apt repositories"
+        echo "Couldn't find $p in apt repositories"
       fi
     done
     sudo apt update && sudo apt upgrade && sudo apt install ${install_queue[@]}
@@ -41,7 +41,7 @@ system_packages() {
       if pacman -Q $p &>/dev/null; then
         install_queue+=($p)
       else
-	echo "Couldn't find $p in pacman repositories"
+        echo "Couldn't find $p in pacman repositories"
       fi
     done
     sudo pacman -Syu && sudo pacman -S ${install_queue[@]}
@@ -50,7 +50,7 @@ system_packages() {
       if zypper -Q $p &>/dev/null; then
         install_queue+=($p)
       else
-	echo "Couldn't find $p in zypper repositories"
+        echo "Couldn't find $p in zypper repositories"
       fi
     done
     sudo zypper ref && sudo zypper install ${install_queue[@]}
@@ -59,36 +59,22 @@ system_packages() {
   fi
 }
 
-asdf_update() {
-  if [ -e "~/.asdf" ]; then
-    pushd .
-    cd ~/.asdf
-    git fetch
-    git checkout "$(git describe --abbrev=0 --tags)"
-    popd
-  fi
-}
-
 asdf_plugins_install() {
   if [ ! -e "~/.asdf" ]; then
-    echo "Installing asdf"
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-    cd ~/.asdf
-    git checkout "$(git describe --abbrev=0 --tags)"
+    echo "Installing mise (asdf alternative)"
+    curl https://mise.run | sh
+    eval "$(~/.local/bin/mise activate bash)"
   fi
-
-  . "$HOME/.asdf/asdf.sh"
-  . "$HOME/.asdf/completions/asdf.bash"
 
   echo "Installing asdf plugins"
   echo
 
   for plugin in "elixir" "erlang" "postgres" "nodejs"; do
-    if ! asdf current $plugin; then
+    if ! mise current $plugin; then
       echo "Adding plugin $plugin"
-      asdf plugin add "$plugin"
-      asdf install "$plugin" latest
-      asdf global "$plugin" $(asdf latest "$plugin")
+      mise plugin add "$plugin"
+      mise install "$plugin" latest
+      mise global "$plugin" $(mise latest "$plugin")
     else
       echo "Skipping installed plugin $plugin"
     fi
