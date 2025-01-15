@@ -2,6 +2,7 @@
 backups/*
 *.bkup
 *.png
+.localbash
 
 # Things to ignore globally
 **/.ropeproject

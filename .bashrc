@@ -13,6 +13,10 @@ if [ -f ~/.workbash ]; then
   source ~/.workbash
 fi
 
+if [ -f ~/.localbash ]; then
+  source ~/.localbash
+fi
+
 # color definitions
 black_fg=30
 red_fg=31
