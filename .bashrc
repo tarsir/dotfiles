@@ -112,15 +112,15 @@ export FZF_DEFAULT_COMMAND='rg --files'
 
 function startup {
   if [ ${INITIALIZED:=no} == "no" ]; then
+    . "$HOME/.cargo/env"
     eval "$(~/.local/bin/mise activate bash)"
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    eval "$(starship init bash)"
     eval "$(ssh-agency -y)"
-    . "$HOME/.cargo/env"
     modify_paths
 
     export INITIALIZED="yes"
   fi
 }
 
+eval "$(starship init bash)"
 startup
