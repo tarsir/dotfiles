@@ -337,13 +337,13 @@ return {
 	},
 	-- status line
 	{
-		"freddiehaddad/feline.nvim",
+		"nvim-lualine/lualine.nvim",
 		event = "VimEnter",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function(_, opts)
-			require("plugins.config.feline")
+			require("plugins.config.lualine")
 		end,
 	},
 	-- tabline
