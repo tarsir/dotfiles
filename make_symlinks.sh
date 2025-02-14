@@ -21,10 +21,13 @@ rm -f "${ssh_config_path}"
 cp "./ssh_config" "${ssh_config_path}"
 
 mkdir -p "$HOME/.config/gitui"
+mkdir -p "$HOME/.config/zellij"
 rm -f "$HOME/.config/gitui/key_bindings.ron"
 cp "./config/gitui/key_bindings.ron" "$HOME/.config/gitui/key_bindings.ron"
 rm -f "$HOME/.config/starship.toml"
 cp "./config/starship.toml" "$HOME/.config/starship.toml"
+rm -f "$HOME/.config/zellij/config.kdl"
+cp "./config/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 
 echo "Copying nushell config files: config.nu, env.nu, my_config.nu, my_env.nu"
 NUSHELL_FILES=("config.nu" "env.nu" "my_config.nu" "my_env.nu")
