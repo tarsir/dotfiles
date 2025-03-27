@@ -100,7 +100,9 @@ modify_paths() {
   path_add "$HOME/.bin"
   path_add "$HOME/.local/share/bob/nvim-bin"
   path_add "$LLVM_INSTALL_PATH/bin"
-  path_add "$FLYCTL_INSTALL/bin:$PATH"
+  path_add "$FLYCTL_INSTALL/bin"
+  export PNPM_HOME="/home/stephen/.local/share/pnpm"
+  path_add "$PNPM_HOME"
 }
 
 zig_paths() {
@@ -124,11 +126,3 @@ function startup {
 
 startup
 eval "$(starship init bash)"
-
-# pnpm
-export PNPM_HOME="/home/stephen/.local/share/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME:"*) ;;
-*) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
