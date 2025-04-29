@@ -4,16 +4,16 @@
 ARCH_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
   "autoconf" "readline" "zlib" "inotify-tools" "fuse2"
   "python-setuptools" "base-devel" "pkgconf" "freetype2"
-  "fontconfig" "libxcb" "xclip" "harfbuzz" "lutris" "flatpak" "steam" "neovim")
+  "fontconfig" "libxcb" "xclip" "harfbuzz" "lutris" "flatpak" "steam")
 
 APT_PACKAGES=("curl" "unzip" "make" "expat" "libxml2-dev"
   "libssl-dev" "libncurses5-dev" "gcc" "automake" "autoconf"
   "libreadline-dev" "zlib1g-dev" "g++" "inotify-tools" "libfuse2"
-  "python-setuptools" "uuid-dev" "pkg-config" "libasound2-dev"
+  "python3-setuptools" "uuid-dev" "pkg-config" "libasound2-dev"
   "libssl-dev" "cmake" "libfreetype6-dev" "libexpat1-dev"
-  "libxcb-composite0-dev" "libharfbuzz-dev" "neovim")
+  "libxcb-composite0-dev" "libharfbuzz-dev")
 
-ZYPPER_PACKAGES=("git-core" "neovim" "gcc" "make" "inotify-tools" "neovim" "openssl-devel")
+ZYPPER_PACKAGES=("git-core" "neovim" "gcc" "make" "inotify-tools" "openssl-devel")
 
 install_brew() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -27,7 +27,7 @@ flatpak_packages() {
 
 system_packages() {
   install_queue=()
-  if apt --version &>/dev/null; then
+  if apt version &>/dev/null; then
     for p in ${APT_PACKAGES[*]}; do
       if apt show $p &>/dev/null; then
         install_queue+=($p)
