@@ -81,6 +81,7 @@ return {
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
+			"nvim-neotest/nvim-nio",
 			"nvim-neotest/neotest-python",
 			"nvim-neotest/neotest-plenary",
 			"nvim-lua/plenary.nvim",
@@ -251,13 +252,12 @@ return {
 	},
 	{
 		"akinsho/toggleterm.nvim",
-		version = "*",
 		config = function()
 			require("toggleterm").setup()
 
 			function _G.set_terminal_keymaps()
 				local opts = { buffer = 0 }
-				vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+				vim.keymap.set("t", "<esc><esc>", [[<C-\><C-n>]], opts)
 				vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
 				vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
 				vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)

@@ -23,6 +23,7 @@ return {
 				javascript = { { "prettierd", "prettier" } },
 				typescript = { { "prettierd", "prettier" } },
 				markdown = { "prettier" },
+				bzl = { "buildifier " },
 			},
 			format_on_save = { timeout_ms = 500, lsp_fallback = true },
 			formatters = {
