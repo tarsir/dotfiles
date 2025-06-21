@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Backing up existing files"
-FILES=(".bashrc" ".gitbash")
+FILES=(".bashrc" ".gitbash" ".localbash" ".tool-versions")
 DATE=$(date +%Y%m%d)
 mkdir -p backups
 for f in ${FILES[*]}; do
@@ -24,8 +24,10 @@ mkdir -p "$HOME/.config/gitui"
 mkdir -p "$HOME/.config/zellij"
 rm -f "$HOME/.config/gitui/key_bindings.ron"
 cp "./config/gitui/key_bindings.ron" "$HOME/.config/gitui/key_bindings.ron"
+
 rm -f "$HOME/.config/starship.toml"
 cp "./config/starship.toml" "$HOME/.config/starship.toml"
+
 rm -f "$HOME/.config/zellij/config.kdl"
 cp "./config/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 
