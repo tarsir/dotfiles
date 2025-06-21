@@ -36,5 +36,9 @@ return {
 			end,
 		},
 	},
-	config = true,
+	config = function(_, opts)
+		require("which-key").add({
+			{ "<leader>a", group = "Aider" },
+		})
+	end,
 }

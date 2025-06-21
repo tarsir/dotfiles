@@ -30,14 +30,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				["<C-m>"] = { vim.lsp.buf.signature_help, "Show signature" },
 				["<leader>D"] = { vim.lsp.buf.type_definition, "Show type definition" },
 				["<leader>rn"] = { vim.lsp.buf.rename, "Rename item" },
-				["<leader>a"] = { vim.lsp.buf.code_action, "Show LSP code actions" },
+				["<leader>ga"] = { vim.lsp.buf.code_action, "Show LSP code actions" },
 				["<leader>f"] = {
 					function()
 						vim.lsp.buf.format({ async = true })
 					end,
 					"Format document",
 				},
-				["gr"] = { vim.lsp.buf.references, "Show references" },
+				["gR"] = { vim.lsp.buf.references, "Show references" },
 			},
 		}
 		require("utils").set_lsp_mapping(mappings, ev)

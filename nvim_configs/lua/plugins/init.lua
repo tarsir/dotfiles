@@ -12,7 +12,7 @@ return {
 			vim.o.timeout = true
 			vim.o.timeoutlen = 200
 			require("which-key").setup({
-				window = {
+				win = {
 					border = "single",
 				},
 			})
@@ -67,6 +67,11 @@ return {
 			},
 		},
 		opts = {},
+		config = function(_, opts)
+			require("which-key").add({
+				{ "<leader>x", group = "Trouble diagnostics" },
+			})
+		end,
 	},
 	{
 		"kylechui/nvim-surround",
@@ -124,7 +129,7 @@ return {
 				mode = "n",
 			},
 			{
-				"<leader>wt",
+				"<leader>twt",
 				function()
 					require("neotest").watch.toggle()
 				end,
@@ -132,7 +137,7 @@ return {
 				mode = "n",
 			},
 			{
-				"<leader>wf",
+				"<leader>twf",
 				function()
 					require("neotest").watch.toggle()
 				end,
@@ -149,6 +154,9 @@ return {
 			},
 		},
 		config = function()
+			require("which-key").add({
+				{ "<leader>t", group = "Test (neotest)" },
+			})
 			require("neotest").setup({
 				adapters = {
 					require("neotest-elixir"),
@@ -329,6 +337,11 @@ return {
 	},
 	{
 		"brneor/gitui.nvim",
+		config = function(_, opts)
+			require("which-key").add({
+				{ "<leader>g", group = "GitUI" },
+			})
+		end,
 		keys = {
 			{ "<leader>gg", "<cmd>GitUi<CR>", desc = "open gitui", mode = "n" },
 			{ "<leader>gf", "<cmd>GitUiFilter<CR>", desc = "open project commits", mode = "n" },
@@ -355,6 +368,11 @@ return {
 		end,
 		version = "^1.0.0", -- optional: only update when a new 1.x version is released
 		opts = {},
+		config = function(_, opts)
+			require("which-key").add({
+				{ "<leader>b", group = "Buffers" },
+			})
+		end,
 		keys = {
 			{ "<leader>bp", "<Cmd>BufferPick<CR>", desc = "buffer pick", mode = "n" },
 			{ "<leader>ba", "<Cmd>BufferPin<CR>", desc = "buffer pin/unpin", mode = "n" },
