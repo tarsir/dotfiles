@@ -130,6 +130,11 @@ rust_and_utils() {
   fi
 }
 
+curl_apps() {
+  # install zoxide for Linux/MacOS
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+}
+
 case "$1" in
 -a | --all)
   echo "Running all steps: system, brew, asdf, rust"
