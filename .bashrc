@@ -45,6 +45,7 @@ function colorize {
 }
 
 alias ls="eza -G"
+alias lt="eza -lrs time"
 alias src="source__"
 alias vim="nvim"
 
