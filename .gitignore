@@ -9,3 +9,4 @@ backups/*
 **/.cache
 *.swp
 *.swo
+.aider*

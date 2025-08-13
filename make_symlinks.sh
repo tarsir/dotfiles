@@ -24,8 +24,10 @@ mkdir -p "$HOME/.config/gitui"
 mkdir -p "$HOME/.config/zellij"
 rm -f "$HOME/.config/gitui/key_bindings.ron"
 cp "./config/gitui/key_bindings.ron" "$HOME/.config/gitui/key_bindings.ron"
+
 rm -f "$HOME/.config/starship.toml"
 cp "./config/starship.toml" "$HOME/.config/starship.toml"
+
 rm -f "$HOME/.config/zellij/config.kdl"
 cp "./config/zellij/config.kdl" "$HOME/.config/zellij/config.kdl"
 
@@ -38,26 +40,10 @@ for f in ${NUSHELL_FILES[*]}; do
   ln -s "$(pwd)/${f}" "$NUSHELL_DIR/${f}"
 done
 
-# Do separately for nvim
-
 echo "Now copying nvim config"
-NVIM_CONFIG="nvim.lua"
-NVIM_PLUGINS_PATH="lua/plugins"
-NVIM_BASE_DIR="$HOME/.config/nvim/"
-NVIM_TARGET_PATH="${NVIM_BASE_DIR}/${NVIM_CONFIG}"
-cp "${NVIM_BASE_DIR}/init.lua" "backups/backup${NVIM_CONFIG}-${DATE}"
-rm -rf "${NVIM_BASE_DIR}/init.lua" "${NVIM_BASE_DIR}/lua"
-et "${NVIM_BASE_DIR}"
-mkdir -p $(dirname $NVIM_TARGET_PATH)
-mkdir -p "${NVIM_BASE_DIR}/${NVIM_PLUGINS_PATH}"
-ln -s "$(pwd)/${NVIM_CONFIG}" "${NVIM_BASE_DIR}/init.lua"
-for f in $(rg --files nvim_configs); do
-  trimmed=$(printf '%s\n' $f | cut -f2- -d'/')
-  final_path="${NVIM_BASE_DIR}/lua/${trimmed}"
-  mkdir -p $(dirname $final_path)
-  cp "$f" "$final_path"
-done
-
+NVIM_BASE_DIR="$HOME/.config/nvim"
+rm -r "${NVIM_BASE_DIR}"
+ln -s "$(pwd)/nvim_configs" "${NVIM_BASE_DIR}"
 et "${NVIM_BASE_DIR}"
 
 echo "Done!"

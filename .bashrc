@@ -8,6 +8,9 @@ stty -ixon -ixoff
 
 source ~/.gitbash
 
+# The next two files are used for stuff that shouldn't be git-committed (like API keys, secrets,
+# work things) or are machine-specific.
+
 # Work specific bash stuff
 if [ -f ~/.workbash ]; then
   source ~/.workbash
@@ -42,6 +45,7 @@ function colorize {
 }
 
 alias ls="eza -G"
+alias lt="eza -lrs time"
 alias src="source__"
 alias vim="nvim"
 
@@ -87,8 +91,8 @@ path_add() {
 }
 
 modify_paths() {
-  export LLVM_INSTALL_PATH="/home/stephen/local/llvm16-release"
-  export FLYCTL_INSTALL="/home/stephen/.fly"
+  export LLVM_INSTALL_PATH="$HOME/local/llvm16-release"
+  export FLYCTL_INSTALL="$HOME/.fly"
 
   if declare -F "work_paths" >/dev/null; then
     work_paths
@@ -101,7 +105,7 @@ modify_paths() {
   path_add "$HOME/.local/share/bob/nvim-bin"
   path_add "$LLVM_INSTALL_PATH/bin"
   path_add "$FLYCTL_INSTALL/bin"
-  export PNPM_HOME="/home/stephen/.local/share/pnpm"
+  export PNPM_HOME="$HOME/.local/share/pnpm"
   path_add "$PNPM_HOME"
 }
 
@@ -126,3 +130,9 @@ function startup {
 
 startup
 eval "$(starship init bash)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '$HOME/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '$HOME/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/completion.bash.inc'; fi

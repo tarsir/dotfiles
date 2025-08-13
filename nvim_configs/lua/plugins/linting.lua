@@ -1,0 +1,47 @@
+return {
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    -- Everything in opts will be passed to setup()
+    opts = {
+      formatters_by_ft = {
+        elixir = { "elixirls" },
+        sh = { "shfmt" },
+        python = { "isort", "black" },
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        markdown = { "prettier" },
+        bzl = { "buildifier " },
+      },
+      format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2" },
+        },
+      },
+    },
+    config = function(_, opts)
+      local conform = require("conform").setup(opts)
+    end,
+  },
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufWritePost" },
+    config = function()
+      local lint = require("lint")
+
+      lint.linters_by_ft = {
+        elixir = { "credo" },
+      }
+
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          lint.try_lint()
+        end,
+      })
+    end,
+  },
+}

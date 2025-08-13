@@ -12,7 +12,7 @@ return {
 			vim.o.timeout = true
 			vim.o.timeoutlen = 200
 			require("which-key").setup({
-				window = {
+				win = {
 					border = "single",
 				},
 			})
@@ -67,6 +67,11 @@ return {
 			},
 		},
 		opts = {},
+		config = function(_, opts)
+			require("which-key").add({
+				{ "<leader>x", group = "Trouble diagnostics" },
+			})
+		end,
 	},
 	{
 		"kylechui/nvim-surround",
@@ -81,6 +86,7 @@ return {
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
+			"nvim-neotest/nvim-nio",
 			"nvim-neotest/neotest-python",
 			"nvim-neotest/neotest-plenary",
 			"nvim-lua/plenary.nvim",
@@ -123,7 +129,7 @@ return {
 				mode = "n",
 			},
 			{
-				"<leader>wt",
+				"<leader>twt",
 				function()
 					require("neotest").watch.toggle()
 				end,
@@ -131,7 +137,7 @@ return {
 				mode = "n",
 			},
 			{
-				"<leader>wf",
+				"<leader>twf",
 				function()
 					require("neotest").watch.toggle()
 				end,
@@ -148,6 +154,9 @@ return {
 			},
 		},
 		config = function()
+			require("which-key").add({
+				{ "<leader>t", group = "Test (neotest)" },
+			})
 			require("neotest").setup({
 				adapters = {
 					require("neotest-elixir"),
@@ -251,13 +260,12 @@ return {
 	},
 	{
 		"akinsho/toggleterm.nvim",
-		version = "*",
 		config = function()
 			require("toggleterm").setup()
 
 			function _G.set_terminal_keymaps()
 				local opts = { buffer = 0 }
-				vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+				vim.keymap.set("t", "<esc><esc>", [[<C-\><C-n>]], opts)
 				vim.keymap.set("t", "jk", [[<C-\><C-n>]], opts)
 				vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
 				vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
@@ -329,6 +337,11 @@ return {
 	},
 	{
 		"brneor/gitui.nvim",
+		config = function(_, opts)
+			require("which-key").add({
+				{ "<leader>g", group = "GitUI" },
+			})
+		end,
 		keys = {
 			{ "<leader>gg", "<cmd>GitUi<CR>", desc = "open gitui", mode = "n" },
 			{ "<leader>gf", "<cmd>GitUiFilter<CR>", desc = "open project commits", mode = "n" },
@@ -355,6 +368,11 @@ return {
 		end,
 		version = "^1.0.0", -- optional: only update when a new 1.x version is released
 		opts = {},
+		config = function(_, opts)
+			require("which-key").add({
+				{ "<leader>b", group = "Buffers" },
+			})
+		end,
 		keys = {
 			{ "<leader>bp", "<Cmd>BufferPick<CR>", desc = "buffer pick", mode = "n" },
 			{ "<leader>ba", "<Cmd>BufferPin<CR>", desc = "buffer pin/unpin", mode = "n" },
