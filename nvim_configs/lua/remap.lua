@@ -56,10 +56,3 @@ vim.api.nvim_create_autocmd("CursorHold", {
 -- Goto previous/next diagnostic warning/error
 vim.keymap.set("n", "g[", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 vim.keymap.set("n", "g]", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = "*",
-	callback = function(args)
-		require("conform").format({ bufnr = args.buf })
-	end,
-})

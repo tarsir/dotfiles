@@ -13,7 +13,6 @@ return {
 			require("mason").setup(opts)
 			require("mason-lspconfig").setup({
 				ensure_installed = { "lua_ls", "rust_analyzer", "elixirls" },
-				automatic_installation = { exclude = { "zls" } },
 			})
 
 			local lspconfig = require("lspconfig")
@@ -84,6 +83,25 @@ return {
 				end,
 			},
 		},
+		config = function()
+			vim.filetype.add({
+				extension = {
+					jinja = "jinja",
+					jinja2 = "jinja",
+					j2 = "jinja",
+					py = "python",
+				},
+				pattern = {
+					[".*.bazelrc"] = "bazelrc",
+				},
+			})
+
+			local servers = {
+				jinja_lsp = {
+					filetypes = { "jinja", "rust", "python" },
+				},
+			}
+		end,
 	},
 	-- cmp
 	{

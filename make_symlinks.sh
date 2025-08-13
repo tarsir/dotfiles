@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Backing up existing files"
-FILES=(".bashrc" ".gitbash" ".localbash" ".tool-versions")
+FILES=(".bashrc" ".gitbash")
 DATE=$(date +%Y%m%d)
 mkdir -p backups
 for f in ${FILES[*]}; do
