@@ -36,3 +36,10 @@ Alternative options for `setup.sh` include:
 - `-r/--rust` installs rust and installs some tools with cargo
 - `-b/--brew` installs some homebrew packages
 
+## Notes
+
+- Installing `postgres` via `mise` in WSL probably requires a couple of small tweaks:
+  - `sudo apt install bison flex pkgconf`
+    - https://github.com/smashedtoatoms/asdf-postgres/issues/94
+  - `HOMEBREW_PREFIX="/tmp/disabled" mise i postgres`
+    - https://github.com/smashedtoatoms/asdf-postgres/issues/99
