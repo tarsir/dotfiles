@@ -175,7 +175,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
       "MunifTanjim/nui.nvim",
-      "3rd/image.nvim",           -- Optional image support in preview window: See `# Preview Mode` for more information
+      "3rd/image.nvim",              -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     config = function(_, opts)
       local mappings = {
@@ -319,6 +319,12 @@ return {
   },
   -- theme
   {
+    "rose-pine/neovim",
+    config = function()
+      vim.cmd([[colorscheme rose-pine-dawn]])
+    end
+  },
+  {
     "catppuccin/nvim",
     lazy = false,
     config = function()
@@ -332,7 +338,7 @@ return {
         },
       })
 
-      vim.cmd([[colorscheme catppuccin-latte]])
+      -- vim.cmd([[colorscheme catppuccin-latte]])
     end,
   },
   {
