@@ -70,6 +70,8 @@ return {
     { "<leader>fh", "<cmd> Telescope help_tags <CR>",                 desc = "help page",              mode = "n" },
     { "<leader>fo", "<cmd> Telescope oldfiles <CR>",                  desc = "find oldfiles",          mode = "n" },
     { "<leader>fz", "<cmd> Telescope current_buffer_fuzzy_find <CR>", desc = "find in current buffer", mode = "n" },
+    { "<leader>fd", "<cmd> Telescope diagnostics <CR>",               desc = "LSP diagnostics",        mode = "n" },
+    { "<leader>fi", "<cmd> Telescope lsp_implementations <CR>",       desc = "LSP implementations",    mode = "n" },
 
     -- git
     { "<leader>cm", "<cmd> Telescope git_commits <CR>",               desc = "git commits",            mode = "n" },
