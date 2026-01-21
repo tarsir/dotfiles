@@ -4,7 +4,7 @@
 ARCH_PACKAGES=("curl" "unzip" "make" "openssl" "ncurses" "gcc" "automake"
   "autoconf" "readline" "zlib" "inotify-tools" "fuse2"
   "python-setuptools" "base-devel" "pkgconf" "freetype2"
-  "fontconfig" "libxcb" "xclip" "harfbuzz" "lutris" "flatpak" "steam")
+  "fontconfig" "libxcb" "wl-clipboard" "harfbuzz" "lutris" "flatpak" "steam")
 
 APT_PACKAGES=("curl" "unzip" "make" "expat" "libxml2-dev"
   "libssl-dev" "libncurses5-dev" "gcc" "automake" "autoconf"
@@ -18,11 +18,6 @@ ZYPPER_PACKAGES=("git-core" "neovim" "gcc" "make" "inotify-tools" "openssl-devel
 install_brew() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-}
-
-flatpak_packages() {
-  # TODO: do something with this
-  FLATPAK_PACKAGES=("obsidian" "discord")
 }
 
 system_packages() {
@@ -61,7 +56,7 @@ system_packages() {
 
 asdf_plugins_install() {
   if [ ! -e "~/.asdf" ]; then
-    echo "Installing mise (asdf alternative)"
+    echo "Installing mise"
     curl https://mise.run | sh
     eval "$(~/.local/bin/mise activate bash)"
   fi
