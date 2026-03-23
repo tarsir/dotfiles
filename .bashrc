@@ -136,3 +136,8 @@ if [ -f '$HOME/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '$HOME/Downlo
 
 # The next line enables shell command completion for gcloud.
 if [ -f '$HOME/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '$HOME/Downloads/google-cloud-sdk/completion.bash.inc'; fi
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/stephen/.lmstudio/bin"
+# End of LM Studio CLI section
+

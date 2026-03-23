@@ -10,3 +10,4 @@ backups/*
 *.swp
 *.swo
 .aider*
+.elixir_ls/

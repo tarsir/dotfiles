@@ -13,6 +13,7 @@ vim.opt.colorcolumn = { "+1", 120 }
 -- tabwidths and such
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
+vim.opt.tabstop = 2
 vim.opt.textwidth = 100
 vim.opt.expandtab = true
 vim.opt.hlsearch = false
@@ -32,3 +33,4 @@ vim.opt.signcolumn = "yes"
 --   pattern = { "*.eex", "*.heex", "*.leex", "*.sface", "*.lexs" },
 --   command = "set filetype=eelixir"
 -- })
+--
