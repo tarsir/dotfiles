@@ -4,26 +4,6 @@ return {
     lazy = false,
     build = ":TSUpdate",
     config = function()
-      -- require("nvim-treesitter.config").setup({
-      --   ensure_installed = {
-      --     "lua",
-      --     "vim",
-      --     "rust",
-      --     "elixir",
-      --     "heex",
-      --     "eex",
-      --     "markdown",
-      --     "bash",
-      --     "markdown_inline",
-      --     "vimdoc",
-      --     "c3"
-      --   },
-      --   highlight = {
-      --     enable = true,
-      --     -- use_languagetree = true,
-      --   },
-      --   indent = { enable = true },
-      -- })
       local treesitter = require('nvim-treesitter')
       local filetypes = {
         "bash",
