@@ -130,6 +130,11 @@ curl_apps() {
   curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 }
 
+copy_scripts() {
+  mkdir -p ~/.local/bin 
+  cp ./scripts/* ~/.local/bin/
+}
+
 case "$1" in
 -a | --all)
   echo "Running all steps: system, brew, asdf, rust"
@@ -138,10 +143,15 @@ case "$1" in
   brew_packages
   asdf_plugins_install
   rust_and_utils
+  copy_scripts
   ;;
 -s | --sys)
   echo "Running system packages step"
   system_packages
+  ;;
+--scripts)
+  echo "Copying scripts to ~/.local/bin"
+  copy_scripts
   ;;
 -a | --asdf)
   echo "Running asdf step"
